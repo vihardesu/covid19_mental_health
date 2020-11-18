@@ -1,0 +1,33 @@
+name: "Global Settings"
+output_dir: "."
+navbar:
+  title: "<div><img src=\"images/test.png\" height=\"22px\"><span style=\"padding-left:10px\">Project</div>"
+  left:
+  - text: "About"
+    menu:
+    - text: "The Project"
+      href: proj_background.html
+    - text: "Members"
+      href: members.html
+  right:
+  - text: "Project Report"
+    icon: fa-file-text-o fa-lg
+    href: report.html
+  - text: "Contact Us"
+    icon: fa-telegram fa-lg
+    menu:
+    - text: "Vihar Desu (vd2392)"
+      href: mailto:<bjb2178@cumc.columbia.edu>
+    - text: "Vihar Desu (vd2392)"
+      href: mailto:<yy3019@cumc.columbia.edu> 
+    - text: "Vihar Desu (vd2392)"
+      href: mailto:<zl2860@cumc.columbia.edu>
+    - text: "Vihar Desu (vd2392)"
+      href: mailto:<wk2343@cumc.columbia.edu>
+  - icon: fa-github fa-lg
+    href: https://github.com/sb4328/CoVMH.github.io
+output:
+  html_document:
+    css: simplex2-modded.min.css
+    includes:
+      after_body: _suffix.html

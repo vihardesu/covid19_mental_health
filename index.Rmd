@@ -1,0 +1,19 @@
+---
+title: <center>P8105 Data Science I Project</center>
+output: html_document
+---
+
+<h2 style="text-align: center;" markdown="1">Exploring Mental Health amidst Covid-19</h2>
+<h6 style="text-align: center;" markdown="1">By: Vihar Desu (vd2392)  |  Vihar Desu (vd2392)  |  Vihar Desu (vd2392)  |  Vihar Desu (vd2392)  |  Vihar Desu (vd2392)</h6>
+<center><a href=""><img src="images/test.png"></a></center>
+
+<br></br>
+
+# Introduction
+
+# Dataset
+
+# Findings
+
+# Fun Facts about the project
+

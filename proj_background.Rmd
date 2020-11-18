@@ -1,0 +1,12 @@
+---
+title: "<div><img src=\"images/test.png\" style=\"max-width:64px; max-height:64px;\"><span style=\"padding-left:20px\">Project Title</div>"
+output: html_document
+---
+
+# What is it?
+
+# Project's Motivation
+
+# Initial Hypotheses
+
+# What did we do in this project?
