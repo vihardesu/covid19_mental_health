@@ -25,7 +25,7 @@ navbar:
     - text: "Vihar Desu (vd2392)"
       href: mailto:<wk2343@cumc.columbia.edu>
   - icon: fa-github fa-lg
-    href: https://github.com/sb4328/CoVMH.github.io
+    href: https://github.com/vihardesu/covid19_mental_health
 output:
   html_document:
     css: simplex2-modded.min.css
