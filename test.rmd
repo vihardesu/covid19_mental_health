@@ -1,0 +1,41 @@
+---
+title: "p8105 final project "
+author: "Chariz Seijo, Joana Petrescu, Vihar Desu, Sanjana Batabyal"
+output: github_document
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+```
+
+
+## Read data
+
+```{r}
+mhealth_df =
+  read_csv("data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv") %>%
+  janitor::clean_names() %>% 
+  rename(mhealth_ind = indicator,
+         mhealth_value = value,
+         mhealth_lowci = low_ci,
+         mhealth_highci =  high_ci,
+         mhealth_ci = confidence_interval,
+         mhealth_qrange = quartile_range)
+
+access_df =
+  read_csv("data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv") %>% 
+  janitor::clean_names() %>% 
+  rename(access_ind = indicator,
+         access_value = value,
+         access_lowci = low_ci,
+         access_highci =  high_ci,
+         access_ci = confidence_interval,
+         access_qrange = quartile_range,
+         time_period = week,
+         time_period_label = week_label)
+
+combined_df = 
+  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label")) %>% 
+  relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
+```
+
