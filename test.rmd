@@ -39,3 +39,14 @@ combined_df =
   relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
 ```
 
+## Correlation analyses
+
+```{r}
+correlation_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks")
+
+cor.test(correlation_df$mhealth_value, correlation_df$access_value, alternative = ("two.sided"), method = c("pearson"))
+```
+
+
