@@ -13,6 +13,8 @@ output: html_document
 library(shiny)
 #install.packages("leaflet")
 library(leaflet)
+#install.packages("maps")
+library(maps)
 
 ```
 
@@ -158,12 +160,77 @@ isolate()
 
 ## action button triggers function
 observeEvent(input$clicks, { print(input$clicks) })
+observe({ print(input$clicks) })
 
+## delay input update until you click action button ("update" button)
+eventReactive(input$go, { rnorm(input$num) })
 
+## create list of reactive values independent of user input
+## can be used w/ observeEvent to create button that overwrites user input value (reset, etc.)
+reactiveValues(data = rnorm(100))
 
 ```
 
+any code that appears in server function will be run every time a user interacts w/ app
 
+any code that only needs to be run once (eg. load libraries) put outside of server function to be run once per session
+
+### User interface
+
+HTML ui
+
+Shiny has tags that translate from R to HTML: https://shiny.rstudio.com/articles/tag-glossary.html
+
+images must be in *www* subdirectory
+
+### Layout
+
+grid organization
+
+```{r}
+
+## add rows w/ fluidRow, each row has 12 units, call columns w/ width (out of 12) and offset within row
+ui <- fluidPage(
+  
+  fluidRow(
+    column(3, sliderInput()),
+    column(5)
+  ),
+  fluidRow(
+    column(4, offset = 8, plotOutput("hist"))
+  )
+  
+)
+
+```
+
+join components together into panels w/ `wellPanel()`
+
+for layering/stacking panels
+
+```{r}
+
+## create stackable layer of elements, first argument is title
+## combine w/ one of the following functions
+tabPanel("Tab 1", ...)
+
+## pass tabPanels through it to layer tabPanels, toggle between them w/ tabs
+## creates a navigation section (tabs) and content section
+tabsestPanel()
+
+## pass tabPanels through it to create sidebar of links to navigate between tabs
+navlistPanel()
+
+```
+
+there are preset layouts:
+https://shiny.rstudio.com/articles/layout-guide.html
+
+## Leaflet + Shiny to make apps
+
+call `leafletOutput` in ui, `renderLeaflet` in server to create Leaflet map object
+
+https://rstudio.github.io/leaflet/
 
 ## Read data
 
@@ -193,6 +260,23 @@ access_df =
 combined_df = 
   left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label")) %>% 
   relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
+
+```
+
+## Plot state data
+
+```{r}
+
+coordinates <- as.data.frame(state.carto.center) %>% mutate(state = state.name)
+
+mhealth_test <- mhealth_df %>% filter(group == "By State") %>% filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder") %>% arrange(state) %>% merge(coordinates, by = "state")
+
+states = map("state", fill = TRUE, plot = FALSE)
+
+leaflet(states) %>%
+  addTiles() %>%
+  addPolygons()
+
 
 ```
 
