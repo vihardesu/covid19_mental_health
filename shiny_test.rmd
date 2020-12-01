@@ -16,7 +16,7 @@ library(leaflet)
 
 ```
 
-## Shiny tutorial notes
+## Shiny components
 
 Two components for every app:
 1. user interface (html)
@@ -34,10 +34,14 @@ shinyApp(ui = ui, server = server)
 
 ```
 
+## Inputs and Outputs
+
 inputs = things user can toggle
 outputs = R objects user sees, respond to changes in input (plots, tables, text)
 
 ### Input types
+
+allow for user interaction
 
 ```{r}
 
@@ -66,6 +70,56 @@ sliderInput(inputId = "num", label = "Choose a number", ...)
 
 ```
 
+### Outputs
+
+plots, tables, text
+
+```{r}
+
+## interactive table
+dataTableOutput()
+
+## plot
+plotOutput()
+
+## regular table
+tableOutput()
+
+## Shiny UI element
+uiOutput()
+
+## syntax
+plotOutput(outputId = "hist")
+
+```
+
+this holds space for output plot but you need to provide instructions for building plot in server function
+
+### Server function
+
+instructions for building outputs from inputs
+
+1. save objects to display in ui to `output$`
+
+`output$hist` in server function builds `plotOutput("hist)`
+
+2. what you save to output is something you build with `render*()` function
+
+these correspond to outputs in ui (eg. `renderDataTable()`, `renderPlot()`, `renderTable()`, `renderUI()`)
+
+3. use input values w/ `input$` when you want them to be interactive
+
+```{r}
+
+## syntax
+server <-  function(input, output) {
+  output$hist <- renderPlot({
+    title <- "num random normal values"
+    hist(rnorm(input$num), main = title) 
+    })
+}
+
+```
 
 
 
