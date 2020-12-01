@@ -114,13 +114,54 @@ these correspond to outputs in ui (eg. `renderDataTable()`, `renderPlot()`, `ren
 ## syntax
 server <-  function(input, output) {
   output$hist <- renderPlot({
-    title <- "num random normal values"
+    title <- "input$num random normal values"
     hist(rnorm(input$num), main = title) 
     })
 }
 
 ```
 
+### Saving
+
+Save script that ends with shinyApp() as `app.R` in *own directory*
+
+Include all datasets, images, etc. in directory
+
+### Sharing
+
+`Shinyapps.io` server
+
+Make account
+
+Devtools install `shinyapps` from github
+
+Link R-studio to `shinyapps.io` account
+
+Makes URL for app
+
+### Reactive function
+
+code chunk that bulids/rebuilds an object **in response to** set of reactive values (controlled in ui)
+
+```{r}
+
+## render functions build objects displayed in app, rebuild when input changes
+render*()
+
+## build a reactive object (function) that can be used to make multiple display objects (plot, table) respond to the same input
+## caches values of input
+## is a function, call w/ parentheses
+reactive()
+
+## makes non-reactive object, updated only when another input is updated for same object (eg. prevent title from updating faster than typing)
+isolate()
+
+## action button triggers function
+observeEvent(input$clicks, { print(input$clicks) })
+
+
+
+```
 
 
 
