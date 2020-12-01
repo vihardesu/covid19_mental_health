@@ -16,6 +16,59 @@ library(leaflet)
 
 ```
 
+## Shiny tutorial notes
+
+Two components for every app:
+1. user interface (html)
+2. server instructions (R)
+
+### Template for every Shiny app
+
+```{r}
+
+ui <- fluidPage()
+
+server <- function(input, output) {}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+inputs = things user can toggle
+outputs = R objects user sees, respond to changes in input (plots, tables, text)
+
+### Input types
+
+```{r}
+
+## buttons
+actionButton()
+submitButton()
+
+## checkboxes
+## potentially include/exclude states
+checkboxInput()
+checkboxGroupInput()
+
+## radio buttons
+radioButtons()
+
+## select box
+## toggle between gender, race, education, etc.
+selectInput()
+
+## sliders
+## select time frame
+sliderInput()
+
+## syntax
+sliderInput(inputId = "num", label = "Choose a number", ...)
+
+```
+
+
+
+
 
 ## Read data
 
@@ -45,24 +98,6 @@ access_df =
 combined_df = 
   left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label")) %>% 
   relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
-```
-
-## Shiny tutorial notes
-
-Two components for every app:
-1. user interface (html)
-2. server instructions (R)
-
-
-## Template for every Shiny app
-
-```{r}
-
-ui <- fluidPage()
-
-server <- function(input, output) {}
-
-shinyApp(ui = ui, server = server)
 
 ```
 
