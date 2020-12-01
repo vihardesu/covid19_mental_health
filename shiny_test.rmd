@@ -1,0 +1,68 @@
+---
+title: "shiny_test"
+author: "Joana Petrescu"
+date: "11/30/2020"
+output: html_document
+---
+
+## Load packages
+
+```{r}
+
+#install.packages("shiny")
+library(shiny)
+#install.packages("leaflet")
+library(leaflet)
+
+```
+
+
+## Read data
+
+```{r}
+mhealth_df =
+  read_csv("data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv") %>%
+  janitor::clean_names() %>% 
+  rename(mhealth_ind = indicator,
+         mhealth_value = value,
+         mhealth_lowci = low_ci,
+         mhealth_highci =  high_ci,
+         mhealth_ci = confidence_interval,
+         mhealth_qrange = quartile_range)
+
+access_df =
+  read_csv("data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv") %>% 
+  janitor::clean_names() %>% 
+  rename(access_ind = indicator,
+         access_value = value,
+         access_lowci = low_ci,
+         access_highci =  high_ci,
+         access_ci = confidence_interval,
+         access_qrange = quartile_range,
+         time_period = week,
+         time_period_label = week_label)
+
+combined_df = 
+  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label")) %>% 
+  relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
+```
+
+## Shiny tutorial notes
+
+Two components for every app:
+1. user interface (html)
+2. server instructions (R)
+
+
+## Template for every Shiny app
+
+```{r}
+
+ui <- fluidPage()
+
+server <- function(input, output) {}
+
+shinyApp(ui = ui, server = server)
+
+```
+
