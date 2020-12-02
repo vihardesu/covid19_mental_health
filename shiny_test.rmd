@@ -334,13 +334,16 @@ ui <- fluidPage(
   column(6, leafletOutput("mh_map")),
   
   column(6, leafletOutput("access_map"))
-  )
+  ),
+  
+  img(src = "coronavirus_cases.png")
   
 )
 
 ## set up shiny server
 
 server <- function(input, output) {
+  
   
   mhealth_updated <- reactive({ mhealth_map %>% filter(time_period == input$week) })
   
