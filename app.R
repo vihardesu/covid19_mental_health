@@ -86,7 +86,7 @@ server <- function(input, output) {
   })
   
   output$mh_map <- renderLeaflet({
-    leaflet(mhealth_updated()) %>% 
+    leaflet(mhealth_updated()) %>% addTiles() %>%
       addPolygons(
         data = states, 
         fillOpacity = 1, 
@@ -110,7 +110,7 @@ server <- function(input, output) {
   access_updated <- reactive({ access_map %>% filter(time_period == input$week) })
   
   output$access_map <- renderLeaflet({
-    leaflet(access_updated()) %>% 
+    leaflet(access_updated()) %>% addTiles() %>%
       addPolygons(
         data = states, 
         fillOpacity = 1, 
