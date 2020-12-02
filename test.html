@@ -343,8 +343,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="read-data" class="section level2">
-<h2>Read data</h2>
+<div id="create-combined-dataframe" class="section level2">
+<h2>Create combined dataframe</h2>
 <pre class="r"><code>mhealth_df =
   read_csv(&quot;data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;% 
@@ -353,23 +353,9 @@ $(document).ready(function () {
          mhealth_lowci = low_ci,
          mhealth_highci =  high_ci,
          mhealth_ci = confidence_interval,
-         mhealth_qrange = quartile_range)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Phase = col_double(),
-##   Indicator = col_character(),
-##   Group = col_character(),
-##   State = col_character(),
-##   Subgroup = col_character(),
-##   `Time Period` = col_double(),
-##   `Time Period Label` = col_character(),
-##   Value = col_double(),
-##   `Low CI` = col_double(),
-##   `High CI` = col_double(),
-##   `Confidence Interval` = col_character(),
-##   `Quartile range` = col_character()
-## )</code></pre>
-<pre class="r"><code>access_df =
+         mhealth_qrange = quartile_range)
+
+access_df =
   read_csv(&quot;data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv&quot;) %&gt;% 
   janitor::clean_names() %&gt;% 
   rename(access_ind = indicator,
@@ -379,44 +365,57 @@ $(document).ready(function () {
          access_ci = confidence_interval,
          access_qrange = quartile_range,
          time_period = week,
-         time_period_label = week_label)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Phase = col_double(),
-##   Indicator = col_character(),
-##   Group = col_character(),
-##   State = col_character(),
-##   Subgroup = col_character(),
-##   Week = col_double(),
-##   `Week Label` = col_character(),
-##   Value = col_double(),
-##   `Low CI` = col_double(),
-##   `High CI` = col_double(),
-##   `Confidence Interval` = col_character(),
-##   `Quartile Range` = col_character()
-## )</code></pre>
-<pre class="r"><code>combined_df = 
-  left_join(mhealth_df, access_df, by = c(&quot;phase&quot;, &quot;group&quot;, &quot;state&quot;, &quot;subgroup&quot;, &quot;time_period&quot;, &quot;time_period_label&quot;)) %&gt;% 
+         time_period_label = week_label)
+
+
+combined_df = 
+  left_join(mhealth_df, access_df, by = c(&quot;phase&quot;, &quot;group&quot;, &quot;state&quot;, &quot;subgroup&quot;, &quot;time_period&quot;, &quot;time_period_label&quot;))  %&gt;% 
   relocate(&quot;phase&quot;, &quot;group&quot;, &quot;state&quot;, &quot;subgroup&quot;, &quot;time_period&quot;, &quot;time_period_label&quot;)</code></pre>
 </div>
-<div id="correlation-analyses" class="section level2">
-<h2>Correlation analyses</h2>
-<pre class="r"><code>correlation_df =
+<div id="comparisons" class="section level2">
+<h2>Comparisons</h2>
+<pre class="r"><code>graph1_df =
   combined_df %&gt;% 
-  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder or Depressive Disorder&quot; &amp; access_ind == &quot;Delayed or Did Not Get Care, Last 4 Weeks&quot;)
+  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder or Depressive Disorder&quot; &amp; access_ind == &quot;Delayed or Did Not Get Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Anxiety or Depressive Disorder (%)&quot;,
+    y = &quot;Delayed or Did Not Get Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;Delayed or No Access to Care vs. Symptoms of Anxiety or Depression&quot;
+    )
 
-cor.test(correlation_df$mhealth_value, correlation_df$access_value, alternative = (&quot;two.sided&quot;), method = c(&quot;pearson&quot;))</code></pre>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  correlation_df$mhealth_value and correlation_df$access_value
-## t = 7.6061, df = 1188, p-value = 5.724e-14
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.1606296 0.2690222
-## sample estimates:
-##       cor 
-## 0.2154896</code></pre>
+graph1_df</code></pre>
+<p><img src="test_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>graph2_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder or Depressive Disorder&quot; &amp; access_ind == &quot;Did Not Get Needed Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Anxiety or Depressive Disorder (%)&quot;,
+    y = &quot;Did Not Get Needed Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;No Access to Care vs. Symptoms of Anxiety or Depression&quot;
+    )
+
+graph2_df</code></pre>
+<p><img src="test_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<pre class="r"><code>graph3_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder or Depressive Disorder&quot; &amp; access_ind == &quot;Delayed Medical Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Anxiety or Depressive Disorder (%)&quot;,
+    y = &quot;Delayed Medical Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;Delayed Access to Care vs. Symptoms of Anxiety or Depression&quot;
+    )
+
+graph3_df</code></pre>
+<p><img src="test_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
 </div>
 
 <!DOCTYPE html>
