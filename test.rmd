@@ -88,3 +88,13 @@ graph3_df =
 graph3_df
 ```
 
+## Plotly graphs
+
+```{r}
+plotly1_df =
+  combined_df %>% 
+  filter(access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" & group == "By Gender") %>% 
+  plot_ly(x = ~time_period_label, y = ~access_value, type = "scatter", mode = "lines", color = ~subgroup)
+```
+
+
