@@ -323,15 +323,18 @@ week_labels <- mhealth_map %>% select(time_period_label) %>% unique
 
 ui <- fluidPage(
   
+
   wellPanel(
   sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1),
 
   textOutput("week_label")
   ),
   
-  leafletOutput("mh_map"),
+  fluidRow(
+  column(6, leafletOutput("mh_map")),
   
-  leafletOutput("access_map")
+  column(6, leafletOutput("access_map"))
+  )
   
 )
 
