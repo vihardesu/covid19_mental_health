@@ -9,6 +9,7 @@ output: html_document
 
 ```{r}
 
+library(tidyverse)
 #install.packages("shiny")
 library(shiny)
 #install.packages("leaflet")
@@ -261,6 +262,14 @@ combined_df =
   left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label")) %>% 
   relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
 
+mhealth_date <- mhealth_df %>% 
+  filter(group == "By State", mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")  %>% 
+  separate(time_period_label, c("first_date", "second_date"), sep = " - ") %>%
+  separate(second_date, c("month", "day"), sep = " ") %>%
+  mutate(year = 2020) %>%
+  mutate(second_date = paste(year, month, day, sep="-") %>% ymd() %>% as.Date()) %>%
+  select(mhealth_ind, state, second_date, mhealth_value, mhealth_ci)
+
 ```
 
 ## Make choropleth of mental health indicator values for each sstate
@@ -286,4 +295,56 @@ leaflet(mhealth_test) %>%
 
 ```
 
-## Shiny 
+## Shiny interaction w/ map
+
+```{r}
+
+## import US states .json file
+states <- geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
+
+class(states) 
+
+mhealth_date <- mhealth_df %>% 
+  filter(group == "By State", mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")  %>% 
+  separate(time_period_label, c("first_date", "second_date"), sep = " - ") %>%
+  separate(second_date, c("month", "day"), sep = " ") %>%
+  mutate(year = 2020) %>%
+  mutate(second_date = paste(year, month, day, sep="-") %>% ymd() %>% as.Date()) %>%
+  select(mhealth_ind, state, second_date, mhealth_value, mhealth_ci)
+
+
+
+## set up shiny ui
+
+ui <- fluidPage(
+  
+  sliderInput(inputId = mhealth_map$second_date, label = "Choose a number")
+  leafletOutput()
+  
+)
+
+## set up shiny server
+
+server <- function(input, output) {
+  
+  mhealth_map <- mhealth_df %>% filter(group == "By State", time_period == input, mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
+  
+  pal <- colorNumeric(
+  palette = "Blues",
+  domain = mhealth_map$mhealth_value)
+  
+  renderLeaflet(
+    
+    mhealth_test  %>% 
+  addPolygons(data = states, fillOpacity = 1, color = ~pal(mhealth_test$mhealth_value), stroke = FALSE, smoothFactor = 0.2)
+
+    
+  )
+  
+}
+
+shinyApp(ui = ui, server = server)
+
+
+```
+
