@@ -13,8 +13,8 @@ output: html_document
 library(shiny)
 #install.packages("leaflet")
 library(leaflet)
-#install.packages("maps")
-library(maps)
+#install.packages("geojsonio")
+library(geojsonio)
 
 ```
 
@@ -263,20 +263,27 @@ combined_df =
 
 ```
 
-## Plot state data
+## Make choropleth of mental health indicator values for each sstate
 
 ```{r}
 
-coordinates <- as.data.frame(state.carto.center) %>% mutate(state = state.name)
+## import .json file w/ state spatial polygons
+states <- geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
 
-mhealth_test <- mhealth_df %>% filter(group == "By State") %>% filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder") %>% arrange(state) %>% merge(coordinates, by = "state")
+class(states) 
 
-states = map("state", fill = TRUE, plot = FALSE)
+## simplify mental health data
+mhealth_test <- mhealth_df %>% filter(group == "By State", time_period == 1, mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
 
-leaflet(states) %>%
-  addTiles() %>%
-  addPolygons()
+## make color pallete
+pal <- colorNumeric(
+  palette = "Blues",
+  domain = mhealth_test$mhealth_value)
 
+## add state shape polygons to US map
+leaflet(mhealth_test) %>% 
+  addPolygons(data = states, fillOpacity = 1, color = ~pal(mhealth_test$mhealth_value), stroke = FALSE, smoothFactor = 0.2)
 
 ```
 
+## Shiny 
