@@ -342,7 +342,12 @@ server <- function(input, output) {
         fillOpacity = 1, 
         color = ~pal(mhealth_updated()$mhealth_value), 
         stroke = FALSE, 
-        smoothFactor = 0.2) %>%
+        smoothFactor = 0.2,
+        label = paste(mhealth_updated()$state, mhealth_updated()$mhealth_value),
+        labelOptions = labelOptions(
+          style = list("font-weight" = "normal", padding = "3px 8px"),
+          textsize = "15px",
+          direction = "auto")) %>%
       
       addLegend(
         pal = pal,
@@ -353,7 +358,6 @@ server <- function(input, output) {
   })
   
 }
-
 
 shinyApp(ui, server)
 
