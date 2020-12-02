@@ -367,7 +367,7 @@ server <- function(input, output) {
         pal = pal,
         values = ~mhealth_map$mhealth_value,
         opacity = 0.7,
-        title = "% with anxiety or depression",
+        title = "% MH symptoms",
         position = "bottomright") 
   })
   
@@ -391,7 +391,7 @@ server <- function(input, output) {
         pal = pal2,
         values = ~access_map$access_value,
         opacity = 0.7,
-        title = "% reduced access to care",
+        title = "% reduced access",
         position = "bottomright") 
   })
   
