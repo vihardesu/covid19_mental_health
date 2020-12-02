@@ -28,7 +28,19 @@ Data was obtained from the Household Pulse Survey data which measures **indicato
 
 ## Data Cleaning and Limitations
 
-We combined two separate Household Pulse Survey datasets to be able to run comparisons on between indicators of anxiety or depression and indicators of reduced access to care.
+We combined two separate Household Pulse Survey datasets to be able to run comparisons on between indicators of anxiety or depression and indicators of reduced access to care. Each dataset had three indicators
+
+Indicators of anxiety or depression:
+
+* Symptoms of Anxiety Disorder or Depressive Disorder
+* Symptoms of Depressive Disorder
+* Symptoms of Anxiety Disorder
+
+Indicators of access to care:
+
+* Delayed or Did Not Get Care, Last 4 Weeks
+* Did Not Get Needed Care, Last 4 Weeks
+* Delayed Medical Care, Last 4 Weeks
 
 ```{r, message = FALSE, warning = FALSE}
 mhealth_df =
@@ -80,9 +92,11 @@ Our final dataset contains 10,881 observations and 18 variables:
 * `access_ci`: Confidence interval of access to health value
 * `access_qrange`: Quartile range of access to health value
 
-All values in this dataframe are averages
+Because all values in this dataframe are averages of each indicator organized into each subgroup (gender, age, education, race, and location), we decided not run any correlation tests. Instead, we chose to create scatter plots comparing indicators of anxiety or depression to indicators of access to care. We chose to look at values by state to maximize the number of data points while ensuring there are no duplicates.
 
 ## Data Summary and Results
+
+<center> <img src="plot_files/figure-html/unnamed-chunk-2-1.png" style="width:80%"> </center>
 
 ```{r, message = FALSE, warning = FALSE}
 graph1_df =
@@ -96,7 +110,11 @@ graph1_df =
     y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
     title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
     )
+```
 
+<center> <img src="plot_files/figure-html/unnamed-chunk-2-2.png" style="width:80%"> </center>
+
+```{r}
 graph2_df =
   combined_df %>% 
   filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
@@ -108,7 +126,11 @@ graph2_df =
     y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
     title = "No Access to Care vs. Symptoms of Anxiety or Depression"
     )
+```
 
+<center> <img src="plot_files/figure-html/unnamed-chunk-2-3.png" style="width:80%"> </center>
+
+```{r}
 graph3_df =
   combined_df %>% 
   filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
@@ -121,6 +143,8 @@ graph3_df =
     title = "Delayed Access to Care vs. Symptoms of Anxiety or Depression"
     )
 ```
+
+These pots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all three plots demonstrate a slight increase in symptoms of anxiety or depression reported when there is an increase in reduced access to care reported.
 
 ## Interactive Plots
 
