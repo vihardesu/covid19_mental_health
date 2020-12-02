@@ -282,7 +282,7 @@ states <- geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/Mappi
 class(states) 
 
 ## simplify mental health data
-mhealth_test <- mhealth_df %>% filter(group == "By State", time_period == 1, mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
+mhealth_test <- mhealth_df %>% filter(group == "By State", time_period == 16, mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
 
 ## make color pallete
 pal <- colorNumeric(
@@ -309,12 +309,18 @@ pal <- colorNumeric(
   palette = "Blues",
   domain = mhealth_map$mhealth_value)
 
+week_labels <- mhealth_map %>% select(time_period_label) %>% unique
+
+
 ## set up shiny ui
 
 ui <- fluidPage(
-  
+  wellPanel(
   sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1),
 
+  textOutput("week_label")
+  ),
+  
   leafletOutput("map")
   
 )
@@ -324,10 +330,26 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   mhealth_updated <- reactive({ mhealth_map %>% filter(time_period == input$week) })
+  
+  output$week_label <- renderText({
+    paste(week_labels[input$week,])
+  })
 
   output$map <- renderLeaflet({
     leaflet(mhealth_updated()) %>% 
-      addPolygons(data = states, fillOpacity = 1, color = ~pal(mhealth_updated()$mhealth_value), stroke = FALSE, smoothFactor = 0.2)
+      addPolygons(
+        data = states, 
+        fillOpacity = 1, 
+        color = ~pal(mhealth_updated()$mhealth_value), 
+        stroke = FALSE, 
+        smoothFactor = 0.2) %>%
+      
+      addLegend(
+        pal = pal,
+        values = ~mhealth_map$mhealth_value,
+        opacity = 0.7,
+        title = "% with anxiety or depression",
+        position = "bottomright") 
   })
   
 }
