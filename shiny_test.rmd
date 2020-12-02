@@ -149,7 +149,7 @@ code chunk that bulids/rebuilds an object **in response to** set of reactive val
 ```{r}
 
 ## render functions build objects displayed in app, rebuild when input changes
-render*()
+render()
 
 ## build a reactive object (function) that can be used to make multiple display objects (plot, table) respond to the same input
 ## caches values of input
