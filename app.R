@@ -55,12 +55,12 @@ week_labels <- mhealth_map %>% select(time_period_label) %>% unique
 ## build Shiny UI
 ui <- fluidPage(
   
-  
-  wellPanel(
+  fluidRow(
+  column(6, offset = 3, wellPanel(
     sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1),
     
-    textOutput("week_label")
-  ),
+    textOutput("week_label"))
+  )),
   
   fluidRow(
     column(6, leafletOutput("mh_map")),
