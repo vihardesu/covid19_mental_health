@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -251,6 +252,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -410,6 +414,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 
@@ -429,16 +441,64 @@ div.tocify {
 </div>
 <div id="data-source" class="section level2">
 <h2>Data Source</h2>
-<p>Data was obtained from the Household Pulse Survey data which measures [indicators of anxiety or depression] (<a href="https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days" class="uri">https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days</a>) and [indicators of reduced access to care] (<a href="https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks" class="uri">https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks</a>) during the coronavirus pandemic.</p>
+<p>Data was obtained from the Household Pulse Survey data which measures <strong>indicators of anxiety or depression</strong> (<a href="https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days" class="uri">https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days</a>) and <strong>indicators of reduced access to care</strong> (<a href="https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks" class="uri">https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks</a>) during the coronavirus pandemic.</p>
+</div>
+<div id="data-cleaning-and-exploration" class="section level2">
+<h2>Data Cleaning and Exploration</h2>
+<p>We combined two separate Household Pulse Survey datasets to be able to run comparisons on between indicators of anxiety or depression and indicators of reduced access to care.</p>
+<pre class="r"><code>mhealth_df =
+  read_csv(&quot;data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv&quot;) %&gt;%
+  janitor::clean_names() %&gt;% 
+  rename(mhealth_ind = indicator,
+         mhealth_value = value,
+         mhealth_lowci = low_ci,
+         mhealth_highci =  high_ci,
+         mhealth_ci = confidence_interval,
+         mhealth_qrange = quartile_range)
+
+access_df =
+  read_csv(&quot;data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  rename(access_ind = indicator,
+         access_value = value,
+         access_lowci = low_ci,
+         access_highci =  high_ci,
+         access_ci = confidence_interval,
+         access_qrange = quartile_range,
+         time_period = week,
+         time_period_label = week_label)
+
+
+combined_df = 
+  left_join(mhealth_df, access_df, by = c(&quot;phase&quot;, &quot;group&quot;, &quot;state&quot;, &quot;subgroup&quot;, &quot;time_period&quot;, &quot;time_period_label&quot;))  %&gt;% 
+  relocate(&quot;phase&quot;, &quot;group&quot;, &quot;state&quot;, &quot;subgroup&quot;, &quot;time_period&quot;, &quot;time_period_label&quot;)</code></pre>
+<p>Our final dataset contains 10,881 observations and 18 variables:</p>
+<ul>
+<li><code>phase</code>: Data broken up into data collection phases</li>
+<li><code>group</code>: Categories of data (gender, age, education, race, location)</li>
+<li><code>state</code>: Location of data collection (national or specific states)</li>
+<li><code>subgroup</code>: Group category broken up (i.e., gender is categorized by male and female)</li>
+<li><code>time_period</code>: 2 week interval of data collection</li>
+<li><code>time_period_label</code>: Label indicating specific dates of data collection</li>
+<li><code>mhealth_ind</code>: Description of anxiety or depression indicator reported</li>
+<li><code>mhealth_value</code>: Percent value of anxiety or depression indicator</li>
+<li><code>mhealth_lowci</code>: Lower estimate of anxiety or depression confidence interval</li>
+<li><code>mhealth_highci</code>: Upper estimate of anxiety or depression confidence interval</li>
+<li><code>mhealth_ci</code>: Confidence interval of anxiety or depression value</li>
+<li><code>mhealth_qrange</code>: Quartile range of anxiety or depression value</li>
+<li><code>access_ind</code>: Description of access to health indicator reported</li>
+<li><code>access_value</code>: Percent value of access to health indicator of each subgroup</li>
+<li><code>access_lowci</code>: Lower estimate of access to health confidence interval</li>
+<li><code>access_highci</code>: Upper estimate of access to health confidence interval</li>
+<li><code>access_ci</code>: Confidence interval of access to health value</li>
+<li><code>access_qrange</code>: Quartile range of access to health value</li>
+</ul>
 </div>
 <div id="data-summary-and-results" class="section level2">
 <h2>Data Summary and Results</h2>
 </div>
-<div id="interactive-plot-1" class="section level2">
-<h2>Interactive Plot 1</h2>
-</div>
-<div id="interactive-plot-2" class="section level2">
-<h2>Interactive Plot 2</h2>
+<div id="interactive-plots" class="section level2">
+<h2>Interactive Plots</h2>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
@@ -500,6 +560,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

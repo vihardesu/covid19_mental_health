@@ -3,10 +3,13 @@ output:
   html_document:
     toc: true
     toc_float: true
+    code_folding: hide
 ---
 
 ```{r setup, include = FALSE, message = FALSE, warning = FALSE}
-
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
 ```
 
 ## Motivation
@@ -21,13 +24,105 @@ We propose to investigate whether there exists a correlation between reduced acc
 
 ## Data Source
 
-Data was obtained from the Household Pulse Survey data which measures [indicators of anxiety or depression] (https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and [indicators of reduced access to care] (https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) during the coronavirus pandemic.
+Data was obtained from the Household Pulse Survey data which measures **indicators of anxiety or depression** (https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and **indicators of reduced access to care** (https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) during the coronavirus pandemic.
+
+## Data Cleaning and Limitations
+
+We combined two separate Household Pulse Survey datasets to be able to run comparisons on between indicators of anxiety or depression and indicators of reduced access to care.
+
+```{r, message = FALSE, warning = FALSE}
+mhealth_df =
+  read_csv("data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv") %>%
+  janitor::clean_names() %>% 
+  rename(mhealth_ind = indicator,
+         mhealth_value = value,
+         mhealth_lowci = low_ci,
+         mhealth_highci =  high_ci,
+         mhealth_ci = confidence_interval,
+         mhealth_qrange = quartile_range)
+
+access_df =
+  read_csv("data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv") %>% 
+  janitor::clean_names() %>% 
+  rename(access_ind = indicator,
+         access_value = value,
+         access_lowci = low_ci,
+         access_highci =  high_ci,
+         access_ci = confidence_interval,
+         access_qrange = quartile_range,
+         time_period = week,
+         time_period_label = week_label)
+
+
+combined_df = 
+  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label"))  %>% 
+  relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
+```
+
+Our final dataset contains 10,881 observations and 18 variables:
+
+* `phase`: Data  broken up into data collection phases
+* `group`: Categories of data (gender, age, education, race, location)
+* `state`: Location of data collection (national or specific states)
+* `subgroup`: Group category broken up (i.e., gender is categorized by male and female)
+* `time_period`: 2 week interval of data collection
+* `time_period_label`: Label indicating specific dates of data collection
+* `mhealth_ind`: Description of anxiety or depression indicator reported
+* `mhealth_value`: Percent value of anxiety or depression indicator
+* `mhealth_lowci`: Lower estimate of anxiety or depression confidence interval
+* `mhealth_highci`: Upper estimate of anxiety or depression confidence interval
+* `mhealth_ci`: Confidence interval of anxiety or depression value
+* `mhealth_qrange`: Quartile range of anxiety or depression value
+* `access_ind`: Description of access to health indicator reported
+* `access_value`: Percent value of access to health indicator of each subgroup
+* `access_lowci`: Lower estimate of access to health confidence interval
+* `access_highci`: Upper estimate of access to health confidence interval
+* `access_ci`: Confidence interval of access to health value
+* `access_qrange`: Quartile range of access to health value
+
+All values in this dataframe are averages
 
 ## Data Summary and Results
 
-## Interactive Plot 1
+```{r, message = FALSE, warning = FALSE}
+graph1_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety or Depressive Disorder (%)",
+    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+    title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
+    )
 
-## Interactive Plot 2
+graph2_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety or Depressive Disorder (%)",
+    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+    title = "No Access to Care vs. Symptoms of Anxiety or Depression"
+    )
+
+graph3_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety or Depressive Disorder (%)",
+    y = "Delayed Medical Care in the Last 4 Weeks (%)",
+    title = "Delayed Access to Care vs. Symptoms of Anxiety or Depression"
+    )
+```
+
+## Interactive Plots
 
 ## Discussion
  

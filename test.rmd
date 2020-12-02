@@ -57,8 +57,6 @@ graph1_df =
     title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
     )
 
-graph1_df
-
 graph2_df =
   combined_df %>% 
   filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
@@ -71,8 +69,6 @@ graph2_df =
     title = "No Access to Care vs. Symptoms of Anxiety or Depression"
     )
 
-graph2_df
-
 graph3_df =
   combined_df %>% 
   filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
@@ -84,9 +80,9 @@ graph3_df =
     y = "Delayed Medical Care in the Last 4 Weeks (%)",
     title = "Delayed Access to Care vs. Symptoms of Anxiety or Depression"
     )
-
-graph3_df
 ```
+
+  plot_ly(x = ~mhealth_value, y = ~access_value, type = "scatter", mode = "markers", color = ~state)
 
 ## Plotly graphs
 
