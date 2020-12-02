@@ -284,7 +284,7 @@ class(states)
 ## simplify mental health data
 mhealth_test <- mhealth_df %>% filter(group == "By State", time_period == 16, mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
 
-## make color pallete
+## make color palette
 pal <- colorNumeric(
   palette = "Blues",
   domain = mhealth_test$mhealth_value)
@@ -305,9 +305,16 @@ states <- geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/Mappi
 mhealth_map <- mhealth_df %>% 
   filter(group == "By State", mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
 
+access_map <-  access_df %>% 
+  filter(group == "By State", access_ind == "Delayed or Did Not Get Care, Last 4 Weeks")
+
 pal <- colorNumeric(
   palette = "Blues",
   domain = mhealth_map$mhealth_value)
+
+pal2 <- colorNumeric(
+  palette = "Greens",
+  domain = access_map$access_value)
 
 week_labels <- mhealth_map %>% select(time_period_label) %>% unique
 
@@ -315,13 +322,16 @@ week_labels <- mhealth_map %>% select(time_period_label) %>% unique
 ## set up shiny ui
 
 ui <- fluidPage(
+  
   wellPanel(
   sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1),
 
   textOutput("week_label")
   ),
   
-  leafletOutput("map")
+  leafletOutput("mh_map"),
+  
+  leafletOutput("access_map")
   
 )
 
@@ -332,10 +342,11 @@ server <- function(input, output) {
   mhealth_updated <- reactive({ mhealth_map %>% filter(time_period == input$week) })
   
   output$week_label <- renderText({
-    paste(week_labels[input$week,])
+   paste(week_labels[input$week,])
+
   })
 
-  output$map <- renderLeaflet({
+  output$mh_map <- renderLeaflet({
     leaflet(mhealth_updated()) %>% 
       addPolygons(
         data = states, 
@@ -354,6 +365,30 @@ server <- function(input, output) {
         values = ~mhealth_map$mhealth_value,
         opacity = 0.7,
         title = "% with anxiety or depression",
+        position = "bottomright") 
+  })
+  
+    access_updated <- reactive({ access_map %>% filter(time_period == input$week) })
+
+  output$access_map <- renderLeaflet({
+    leaflet(access_updated()) %>% 
+      addPolygons(
+        data = states, 
+        fillOpacity = 1, 
+        color = ~pal2(access_updated()$access_value), 
+        stroke = FALSE, 
+        smoothFactor = 0.2,
+        label = paste(access_updated()$state, access_updated()$access_value),
+        labelOptions = labelOptions(
+          style = list("font-weight" = "normal", padding = "3px 8px"),
+          textsize = "15px",
+          direction = "auto")) %>%
+      
+      addLegend(
+        pal = pal2,
+        values = ~access_map$access_value,
+        opacity = 0.7,
+        title = "% reduced access to care",
         position = "bottomright") 
   })
   
