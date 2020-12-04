@@ -96,7 +96,9 @@ Because all values in this dataframe are averages of each indicator organized in
 
 ## Data Summary and Results
 
-<center> <img src="plot_files/figure-html/unnamed-chunk-2-1.png" style="width:80%"> </center>
+### Symptoms of Anxiety and Depression and Access to Care Indicators
+
+<center> <img src="plot_files/figure-html/plot_1.png" style="width:80%"> </center>
 
 ```{r, message = FALSE, warning = FALSE}
 graph1_df =
@@ -112,9 +114,9 @@ graph1_df =
     )
 ```
 
-<center> <img src="plot_files/figure-html/unnamed-chunk-2-2.png" style="width:80%"> </center>
+<center> <img src="plot_files/figure-html/plot_2.png" style="width:80%"> </center>
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 graph2_df =
   combined_df %>% 
   filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
@@ -128,9 +130,9 @@ graph2_df =
     )
 ```
 
-<center> <img src="plot_files/figure-html/unnamed-chunk-2-3.png" style="width:80%"> </center>
+<center> <img src="plot_files/figure-html/plot_3.png" style="width:80%"> </center>
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 graph3_df =
   combined_df %>% 
   filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
@@ -144,7 +146,110 @@ graph3_df =
     )
 ```
 
-These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all three plots demonstrate a slight increase in symptoms of anxiety or depression reported when there is an increase in reduced access to care reported.
+### Symptoms of Anxiety and Access to Care Indicators
+
+<center> <img src="plot_files/figure-html/plot_4.png" style="width:80%"> </center>
+
+```{r, message = FALSE, warning = FALSE}
+graph4_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety (%)",
+    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+    title = "Delayed or No Access to Care vs. Symptoms of Anxiety"
+    ) +
+  theme(plot.title = element_text(size = rel(1)))
+```
+
+<center> <img src="plot_files/figure-html/plot_5.png" style="width:80%"> </center>
+
+```{r, message = FALSE, warning = FALSE}
+graph5_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety (%)",
+    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+    title = "No Access to Care vs. Symptoms of Anxiety"
+    )
+```
+
+<center> <img src="plot_files/figure-html/plot_6.png" style="width:80%"> </center>
+
+```{r, message = FALSE, warning = FALSE}
+graph6_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety (%)",
+    y = "Delayed Medical Care in the Last 4 Weeks (%)",
+    title = "Delayed Access to Care vs. Symptoms of Anxiety"
+    )
+```
+
+### Symptoms of Depression and Access to Care Indicators
+
+<center> <img src="plot_files/figure-html/plot_7.png" style="width:80%"> </center>
+
+```{r, message = FALSE, warning = FALSE}
+graph7_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Depression (%)",
+    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+    title = "Delayed or No Access to Care vs. Symptoms of Depression"
+    )  +
+  theme(plot.title = element_text(size = rel(1)))
+```
+
+<center> <img src="plot_files/figure-html/plot_8.png" style="width:80%"> </center>
+
+```{r, message = FALSE, warning = FALSE}
+graph8_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Depression (%)",
+    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+    title = "No Access to Care vs. Symptoms of Depression"
+    )
+```
+
+<center> <img src="plot_files/figure-html/plot_9.png" style="width:80%"> </center>
+
+```{r, message = FALSE, warning = FALSE}
+graph9_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Depression (%)",
+    y = "Delayed Medical Care in the Last 4 Weeks (%)",
+    title = "Delayed Access to Care vs. Symptoms of Depression"
+    ) +
+  theme(plot.title = element_text(size = rel(1)))
+```
+
+These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all plots depict symptoms of anxiety or depression increasing while reduced access to care values increase.
 
 ## Interactive Plots
 
