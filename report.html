@@ -357,7 +357,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><div><img src="images/cover.jpg" height="22px"><span style="padding-left:10px">Mental Health Amidst Covid 19</div></a>
+      <a class="navbar-brand" href="index.html"><div><img src="images/cover.jpg" height="22px"><span style="padding-left:10px">Mental Health Amidst Covid-19</div></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -643,8 +643,10 @@ combined_df =
 </div>
 <div id="data-summary-and-results" class="section level2">
 <h2>Data Summary and Results</h2>
+<div id="symptoms-of-anxiety-and-depression-and-access-to-care-indicators" class="section level3">
+<h3>Symptoms of Anxiety and Depression and Access to Care Indicators</h3>
 <center>
-<img src="plot_files/figure-html/unnamed-chunk-2-1.png" style="width:80%">
+<img src="plot_files/figure-html/plot_1.png" style="width:80%">
 </center>
 <pre class="r"><code>graph1_df =
   combined_df %&gt;% 
@@ -658,7 +660,7 @@ combined_df =
     title = &quot;Delayed or No Access to Care vs. Symptoms of Anxiety or Depression&quot;
     )</code></pre>
 <center>
-<img src="plot_files/figure-html/unnamed-chunk-2-2.png" style="width:80%">
+<img src="plot_files/figure-html/plot_2.png" style="width:80%">
 </center>
 <pre class="r"><code>graph2_df =
   combined_df %&gt;% 
@@ -672,7 +674,7 @@ combined_df =
     title = &quot;No Access to Care vs. Symptoms of Anxiety or Depression&quot;
     )</code></pre>
 <center>
-<img src="plot_files/figure-html/unnamed-chunk-2-3.png" style="width:80%">
+<img src="plot_files/figure-html/plot_3.png" style="width:80%">
 </center>
 <pre class="r"><code>graph3_df =
   combined_df %&gt;% 
@@ -685,7 +687,101 @@ combined_df =
     y = &quot;Delayed Medical Care in the Last 4 Weeks (%)&quot;,
     title = &quot;Delayed Access to Care vs. Symptoms of Anxiety or Depression&quot;
     )</code></pre>
-<p>These pots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all three plots demonstrate a slight increase in symptoms of anxiety or depression reported when there is an increase in reduced access to care reported.</p>
+</div>
+<div id="symptoms-of-anxiety-and-access-to-care-indicators" class="section level3">
+<h3>Symptoms of Anxiety and Access to Care Indicators</h3>
+<center>
+<img src="plot_files/figure-html/plot_4.png" style="width:80%">
+</center>
+<pre class="r"><code>graph4_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder&quot; &amp; access_ind == &quot;Delayed or Did Not Get Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Anxiety (%)&quot;,
+    y = &quot;Delayed or Did Not Get Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;Delayed or No Access to Care vs. Symptoms of Anxiety&quot;
+    ) +
+  theme(plot.title = element_text(size = rel(1)))</code></pre>
+<center>
+<img src="plot_files/figure-html/plot_5.png" style="width:80%">
+</center>
+<pre class="r"><code>graph5_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder&quot; &amp; access_ind == &quot;Did Not Get Needed Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Anxiety (%)&quot;,
+    y = &quot;Did Not Get Needed Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;No Access to Care vs. Symptoms of Anxiety&quot;
+    )</code></pre>
+<center>
+<img src="plot_files/figure-html/plot_6.png" style="width:80%">
+</center>
+<pre class="r"><code>graph6_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Anxiety Disorder&quot; &amp; access_ind == &quot;Delayed Medical Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Anxiety (%)&quot;,
+    y = &quot;Delayed Medical Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;Delayed Access to Care vs. Symptoms of Anxiety&quot;
+    )</code></pre>
+</div>
+<div id="symptoms-of-depression-and-access-to-care-indicators" class="section level3">
+<h3>Symptoms of Depression and Access to Care Indicators</h3>
+<center>
+<img src="plot_files/figure-html/plot_7.png" style="width:80%">
+</center>
+<pre class="r"><code>graph7_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Depressive Disorder&quot; &amp; access_ind == &quot;Delayed or Did Not Get Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Depression (%)&quot;,
+    y = &quot;Delayed or Did Not Get Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;Delayed or No Access to Care vs. Symptoms of Depression&quot;
+    )  +
+  theme(plot.title = element_text(size = rel(1)))</code></pre>
+<center>
+<img src="plot_files/figure-html/plot_8.png" style="width:80%">
+</center>
+<pre class="r"><code>graph8_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Depressive Disorder&quot; &amp; access_ind == &quot;Did Not Get Needed Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Depression (%)&quot;,
+    y = &quot;Did Not Get Needed Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;No Access to Care vs. Symptoms of Depression&quot;
+    )</code></pre>
+<center>
+<img src="plot_files/figure-html/plot_9.png" style="width:80%">
+</center>
+<pre class="r"><code>graph9_df =
+  combined_df %&gt;% 
+  filter(mhealth_ind == &quot;Symptoms of Depressive Disorder&quot; &amp; access_ind == &quot;Delayed Medical Care, Last 4 Weeks&quot; &amp;  group == &quot;By State&quot;) %&gt;% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = &quot;Symptoms of Depression (%)&quot;,
+    y = &quot;Delayed Medical Care in the Last 4 Weeks (%)&quot;,
+    title = &quot;Delayed Access to Care vs. Symptoms of Depression&quot;
+    ) +
+  theme(plot.title = element_text(size = rel(1)))</code></pre>
+<p>These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all plots depict symptoms of anxiety or depression increasing while reduced access to care values increase.</p>
+</div>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>

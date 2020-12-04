@@ -1,5 +1,5 @@
 ---
-title: <center>P8105 Data Science I Project</center>
+title: <center>Understanding Mental Health and Access to Care during the Covid-19 Pandemic </center>
 output: html_document
 ---
 
@@ -11,7 +11,7 @@ output: html_document
 
 # Introduction
 
-The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic,  public health measures in place to reduce its spread may cause an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. In this analysis, we investigate the relationships between COVID-19 and mental health services accross the country.
+The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic,  public health measures in place to reduce its spread may cause an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. In this analysis, we investigate the relationships between COVID-19 and mental health services across the country.
 
 # Dataset
 
@@ -19,4 +19,11 @@ Data was obtained from the Household Pulse Survey data from the CDC which measur
 
 # Findings - TODO
 
-# Mental Health Resources - TODO
+# Mental Health Resources
+
+Having mental health issues during the pandemic is common. [Here are resources](https://www.cdc.gov/coronavirus/2019-ncov/daily-life-coping/managing-stress-anxiety.html) for managing stress and taking care of your mental health.
+
+In crisis:
+
+* National Suicide Prevention Hotline: **1-800-273-8255**
+* Crisis Text Line: Text **741741**
