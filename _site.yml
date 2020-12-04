@@ -1,29 +1,25 @@
 name: "Global Settings"
 output_dir: "."
 navbar:
-  title: "<div><img src=\"images/test.png\" height=\"22px\"><span style=\"padding-left:10px\">Project</div>"
+  title: "<div><img src=\"images/cover.jpg\" height=\"22px\"><span style=\"padding-left:10px\">Mental Health Amidst Covid 19</div>"
   left:
-  - text: "About"
-    menu:
-    - text: "The Project"
-      href: proj_background.html
-    - text: "Members"
-      href: members.html
   right:
   - text: "Project Report"
     icon: fa-file-text-o fa-lg
     href: report.html
+  - text: "Visual Analysis"
+    href: "#"
   - text: "Contact Us"
     icon: fa-telegram fa-lg
     menu:
     - text: "Vihar Desu (vd2392)"
-      href: mailto:<bjb2178@cumc.columbia.edu>
-    - text: "Vihar Desu (vd2392)"
-      href: mailto:<yy3019@cumc.columbia.edu> 
-    - text: "Vihar Desu (vd2392)"
-      href: mailto:<zl2860@cumc.columbia.edu>
-    - text: "Vihar Desu (vd2392)"
-      href: mailto:<wk2343@cumc.columbia.edu>
+      href: mailto:<vihardesu@columbia.edu>
+    - text: "Chariz Seijo (cks2143)"
+      href: mailto:<cks2143@cumc.columbia.edu> 
+    - text: "Joana Petrescu (jp3665)"
+      href: mailto:<jp3665@cumc.columbia.edu>
+    - text: "Sanjana Batabyal (sb4328)"
+      href: mailto:<sb4328@cumc.columbia.edu>
   - icon: fa-github fa-lg
     href: https://github.com/vihardesu/covid19_mental_health
 output:

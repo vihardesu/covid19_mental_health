@@ -1,5 +1,5 @@
 ---
-title: "<div><img src=\"images/test.png\" style=\"max-width:64px; max-height:64px;\"><span style=\"padding-left:20px\">Project Title</div>"
+title: "<div><img src=\"images/cover.jpg\" style=\"max-width:64px; max-height:64px;\"><span style=\"padding-left:20px\">Mental Health Amidst Covid-19</div>"
 output: html_document
 ---
 
