@@ -1,7 +1,7 @@
 name: "Global Settings"
 output_dir: "."
 navbar:
-  title: "<div><img src=\"images/cover.jpg\" height=\"22px\"><span style=\"padding-left:10px\">Mental Health Amidst Covid 19</div>"
+  title: "<div><img src=\"images/cover.jpg\" height=\"22px\"><span style=\"padding-left:10px\">Mental Health Amidst Covid-19</div>"
   left:
   right:
   - text: "Project Report"
