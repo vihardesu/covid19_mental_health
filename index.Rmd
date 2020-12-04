@@ -9,9 +9,6 @@ output: html_document
 
 <br></br>
 
-# TO DO - Replace Link
-<iframe id="shiny" src="https://gallery.shinyapps.io/goog-trend-index/" style="border: none; width: 100%; height: auto" frameborder="0"></iframe>
-
 # Introduction
 
 The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic,  public health measures in place to reduce its spread may cause an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. In this analysis, we investigate the relationships between COVID-19 and mental health services accross the country.
