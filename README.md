@@ -1,5 +1,6 @@
 ## Mental Health Access amidst Covid 19
 [Visit the report](https://vihardesu.github.io/covid19_mental_health/)  
+[Watch the screencast](https://www.youtube.com/watch?v=iMS_dxDgU4g&feature=youtu.be)
 
 #### Authors:  
 Chariz Seijo  
