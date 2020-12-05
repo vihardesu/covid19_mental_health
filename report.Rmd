@@ -411,6 +411,7 @@ graph9_df =
 
 These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all plots depict symptoms of anxiety or depression increasing while reduced access to care values increase.
 
-
 ## Discussion
+
+Although the data we had access to limited our analyses, we were able to observe possible positive correlations between reduced access to care and symptoms of depression and anxiety. As the COVID-19 pandemic continues, mental health concerns are a major public health priority. Increasing funding and expanding funding for telehealth options for mental healthcare is especially important as restrictions and lockdowns may continue into another year.
  
