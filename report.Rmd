@@ -483,8 +483,6 @@ In order to create another dimension to the data we were working with, we decide
 
 ## Discussion
 
-Those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health than groups with higher education levels.
-
 All scatter plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
 
 Because all values in this dataframe are averages of each indicator organized into each subgroup (gender, age, education, race, and location), we decided not run any correlation tests. Instead, we chose to create these scatter plots comparing indicators of anxiety or depression to indicators of access to care. We chose to look at values by state to maximize the number of data points while ensuring there are no duplicates. These scatter plots are also limited since they do not control for the varying time periods. In our visual analysis tab, we are able to create plots by time periods and depict these correlations.
