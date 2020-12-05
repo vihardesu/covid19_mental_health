@@ -25,5 +25,7 @@ navbar:
 output:
   html_document:
     css: simplex2-modded.min.css
+    title: Covid 19 Mental Health
+    toc: yes
     includes:
       after_body: _suffix.html
