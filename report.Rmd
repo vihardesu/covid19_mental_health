@@ -481,7 +481,19 @@ In order to create another dimension to the data we were working with, we decide
 * States had to have a minimum of mask mandate in their state as well as some business closures in order to be labeled a state with moderate restrictions.
 * All other states were placed under the little to no state restriction category.
 
+```{r}
+
+restrictions_df <- 
+  read_csv("data/restrictions.csv")
+
+restrictions_df
+
+```
+
+
 ## Discussion
+
+All plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
 
 All scatter plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
 

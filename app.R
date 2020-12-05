@@ -8,6 +8,10 @@ library(leaflet)
 library(geojsonio)
 
 ## load data
+
+restrictions_df <- 
+  read_csv("data/restrictions.csv")
+
 mhealth_df =
   read_csv("data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv") %>%
   janitor::clean_names() %>% 
@@ -88,14 +92,15 @@ ui <- fluidPage(
   
   fluidRow(
     
-  column(6, offset = 3, plotOutput("combined_plot")))
+  column(6, plotOutput("combined_plot")),
   
+  column(6, tableOutput("restrictions_table"))
     
   ),
   br(),
   br()
-  
-)
+
+))
 
 ## build Shiny server
 server <- function(input, output) {
@@ -154,7 +159,7 @@ server <- function(input, output) {
   
 
   
-  output$combined_plot <- renderPlot(
+  output$combined_plot <- renderPlot({
     
     combined_updated() %>% 
       ggplot(aes(x = mhealth_value, y = access_value)) +
@@ -163,10 +168,12 @@ server <- function(input, output) {
       labs(
         x = "Symptoms of Anxiety or Depressive Disorder (%)",
         y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
-        title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
-      )
+        title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression")
+      })
     
-  )
+  output$restrictions_table <- renderTable({restrictions_df})
+    
+  
   
 }
 
