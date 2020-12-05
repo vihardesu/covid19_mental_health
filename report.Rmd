@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Motivation
 
-The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic,  public health measures in place to reduce its spread may cause an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. 
+The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic, public health measures in place to reduce its spread may be associated with an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. The coincidince of increased mental health symptoms and reduced access to healthcare during the COVID-19 pandemic may reveal unment mental health needs.
 
 ## Initial Questions and Goal
 
@@ -28,9 +28,7 @@ We propose to investigate whether there exists a correlation between reduced acc
 
 ## Related Work
 
-With the ongoing pandemic, we still do not fully understand how it has impacted access to mental healthcare and the prevalence of mental illness in the general population. 
-
-A few projects have provided recommendations and/or examined preliminary data:
+The effect of the ongoing coronavirus pandemic on access to mental healthcare and the prevalence of mental illness in the general population is currently unknown. The following projects have provided recommendations and/or examined preliminary data to address these questions:
 
 * [Human needs in COVID-19 isolation](https://journals.sagepub.com/doi/full/10.1177/1359105320925149?casa_token=wSRi-0u2RlsAAAAA%3AGsLCwQZQ6_EORL0wBOUi3mYJisP0ZN0WOl1kP1aJClaH4j12Fk48Gipv_DTxepfRpah8VbdRTaTPDg)
 
@@ -38,15 +36,15 @@ A few projects have provided recommendations and/or examined preliminary data:
 
 * [Impact of COVID-19 and lockdown on mental health of children and adolescents](https://www.sciencedirect.com/science/article/pii/S016517812031725X?casa_token=uJHlhj7hWk0AAAAA:mzm7WDMrMzs-BZEdUrb7W0zpBwaHFhU-BlVonNsRPbbpzEdaoQG2GzQzL4YDUhvG5xgmtKc14w)
 
-Our project seeks to further understand the impact of the COVID-19 on mental health, especially possible factors that include the disruption of typical mental healthcare and pyscholgical distress associated with the pandemic.
+Our project seeks to further understand the impact of COVID-19 on mental health and the ability to access health care. The reduced access to care and increased pyscholgical stressors associated with the pandemic may contribute to unmet mental health needs.
 
 ## Data Source
 
-Data was obtained from the Household Pulse Survey data which measures **indicators of anxiety or depression** (https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and **indicators of reduced access to care** (https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) during the coronavirus pandemic.
+Data was obtained from the Household Pulse Survey data which measures [indicators of anxiety or depression](https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and [indicators of reduced access to care](https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) during the coronavirus pandemic.
 
 ## Data Cleaning and Limitations
 
-We combined two separate Household Pulse Survey datasets to be able to run comparisons on between indicators of anxiety or depression and indicators of reduced access to care. Each dataset had three indicators
+We combined two separate Household Pulse Survey datasets to be able to compare indicators of anxiety or depression and indicators of reduced access to care. Each dataset has three indicators as follows:
 
 Indicators of anxiety or depression:
 
