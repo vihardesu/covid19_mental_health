@@ -58,33 +58,57 @@ Indicators of access to care:
 * Did Not Get Needed Care, Last 4 Weeks
 * Delayed Medical Care, Last 4 Weeks
 
-```{r, message = FALSE, warning = FALSE}
+```{r, extraction, message = FALSE, warning = FALSE}
 mhealth_df =
-  read_csv("data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv") %>%
-  janitor::clean_names() %>% 
-  rename(mhealth_ind = indicator,
-         mhealth_value = value,
-         mhealth_lowci = low_ci,
-         mhealth_highci =  high_ci,
-         mhealth_ci = confidence_interval,
-         mhealth_qrange = quartile_range)
+  read_csv(
+    "data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv"
+  ) %>%
+  janitor::clean_names() %>%
+  rename(
+    mhealth_ind = indicator,
+    mhealth_value = value,
+    mhealth_lowci = low_ci,
+    mhealth_highci =  high_ci,
+    mhealth_ci = confidence_interval,
+    mhealth_qrange = quartile_range
+  )
 
 access_df =
-  read_csv("data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv") %>% 
-  janitor::clean_names() %>% 
-  rename(access_ind = indicator,
-         access_value = value,
-         access_lowci = low_ci,
-         access_highci =  high_ci,
-         access_ci = confidence_interval,
-         access_qrange = quartile_range,
-         time_period = week,
-         time_period_label = week_label)
+  read_csv(
+    "data/Indicators_of_Reduced_Access_to_Care_Due_to_the_Coronavirus_Pandemic_During_Last_4_Weeks.csv"
+  ) %>%
+  janitor::clean_names() %>%
+  rename(
+    access_ind = indicator,
+    access_value = value,
+    access_lowci = low_ci,
+    access_highci =  high_ci,
+    access_ci = confidence_interval,
+    access_qrange = quartile_range,
+    time_period = week,
+    time_period_label = week_label
+  )
 
 
-combined_df = 
-  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label"))  %>% 
-  relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
+combined_df =
+  left_join(
+    mhealth_df,
+    access_df,
+    by = c(
+      "phase",
+      "group",
+      "state",
+      "subgroup",
+      "time_period",
+      "time_period_label"
+    )
+  )  %>%
+  relocate("phase",
+           "group",
+           "state",
+           "subgroup",
+           "time_period",
+           "time_period_label")
 ```
 
 Our final dataset contains 10,881 observations and 18 variables:
@@ -114,140 +138,150 @@ The following visualizations provide a preliminary look into the relationship be
 
 #### Indicators of Mental Health Symptoms Ranked by State
 
-```{r}
+```{r exploration_pt1}
 mhealth_df %>%
-  mutate(
-    state = fct_reorder(as.factor(state), mhealth_value)
-  ) %>% 
-  plot_ly(y = ~mhealth_value, color = ~state, type = "box", colors = "viridis") %>%
-  layout(title = 'Mental Health Symptoms by State',
-         xaxis = list(title = 'States'),
-         yaxis = list(title = 'Mental Health Symptoms (%)'))
+  mutate(state = fct_reorder(as.factor(state), mhealth_value)) %>%
+  plot_ly(
+    y = ~ mhealth_value,
+    color = ~ state,
+    type = "box",
+    colors = "viridis"
+  ) %>%
+  layout(
+    title = 'Mental Health Symptoms by State',
+    xaxis = list(title = 'States'),
+    yaxis = list(title = 'Mental Health Symptoms (%)')
+  )
 ```
 
 #### Indicators of Reduced Access to Care Ranked by State
 
-```{r}
+```{r exploration_pt2}
 access_df %>%
-  mutate(
-    state = fct_reorder(as.factor(state), access_value)
-  ) %>% 
-  plot_ly(y = ~access_value, color = ~state, type = "box", colors = "viridis") %>%
-  layout(title = 'Reduced Accesss to Care by State',
-         xaxis = list(title = 'States'),
-         yaxis = list(title = 'Reduced Access to Care (%)' ))
+  mutate(state = fct_reorder(as.factor(state), access_value)) %>%
+  plot_ly(
+    y = ~ access_value,
+    color = ~ state,
+    type = "box",
+    colors = "viridis"
+  ) %>%
+  layout(
+    title = 'Reduced Accesss to Care by State',
+    xaxis = list(title = 'States'),
+    yaxis = list(title = 'Reduced Access to Care (%)')
+  )
 ```
 
 #### Proportion Reporting Mental Health Symptoms by Age Group and Education Level from Apr. 23 thru Oct. 26
 
 We found it interesting that symptoms of anxiety and depression increased over the course of the pandemic among all age groups. The following two plots demonstrate that over the course of the first 4-5 months, anxiety and depression levels increased. Around the 12th survey period (August), it appears that symptoms of depression or anxiety decreased across all education levels and age groups. Furthermore, those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health symptoms than groups with higher education levels.
 
-```{r}
-mhealth_df %>% 
-  mutate(
-    group = as.factor(group),
-    subgroup = as.factor(subgroup)
-  ) %>% 
-  filter(
-    group =="By Age"
-  ) %>% 
-  drop_na(mhealth_value) %>% 
-  group_by(time_period, subgroup) %>% 
-  summarize(
-    subgroup,
-    time_period,
-    mhealth_value
-  ) %>% 
-  summarize(
-    mean_mhealth_value = mean(mhealth_value)
+```{r exploration_pt3}
+mhealth_df %>%
+  mutate(group = as.factor(group),
+         subgroup = as.factor(subgroup)) %>%
+  filter(group == "By Age") %>%
+  drop_na(mhealth_value) %>%
+  group_by(time_period, subgroup) %>%
+  summarize(subgroup,
+            time_period,
+            mhealth_value) %>%
+  summarize(mean_mhealth_value = mean(mhealth_value)) %>%
+  ungroup() %>%
+  plot_ly(
+    y =  ~ mean_mhealth_value,
+    x = ~ time_period,
+    color =  ~ subgroup,
+    type = "scatter",
+    mode = "lines+markers"
   ) %>%
-  ungroup() %>% 
-  plot_ly(y=~mean_mhealth_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Mental Health Symptoms (Apr 23 thru Oct 26) by Age Group',
-         xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Mental Health Symptoms (%)'))
+  layout(
+    title = 'Mental Health Symptoms (Apr 23 thru Oct 26) by Age Group',
+    xaxis = list(title = 'Time Period (2-Week Intervals)'),
+    yaxis = list(title = 'Mental Health Symptoms (%)')
+  )
 ```
 
-```{r}
-mhealth_df %>% 
-  mutate(
-    group = as.factor(group),
-    subgroup = as.factor(subgroup)
-  ) %>% 
-  filter(
-    group =="By Education"
-  ) %>% 
-  drop_na(mhealth_value) %>% 
-  group_by(time_period, subgroup) %>% 
-  summarize(
-    subgroup,
-    time_period,
-    mhealth_value
-  ) %>% 
-  summarize(
-    mean_mhealth_value = mean(mhealth_value)
+```{r exploration_pt4}
+mhealth_df %>%
+  mutate(group = as.factor(group),
+         subgroup = as.factor(subgroup)) %>%
+  filter(group == "By Education") %>%
+  drop_na(mhealth_value) %>%
+  group_by(time_period, subgroup) %>%
+  summarize(subgroup,
+            time_period,
+            mhealth_value) %>%
+  summarize(mean_mhealth_value = mean(mhealth_value)) %>%
+  ungroup() %>%
+  plot_ly(
+    y =  ~ mean_mhealth_value,
+    x = ~ time_period,
+    color =  ~ subgroup,
+    type = "scatter",
+    mode = "lines+markers"
   ) %>%
-  ungroup() %>% 
-  plot_ly(y=~mean_mhealth_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Mental Health Symptoms (Apr 23 thru Oct 26) by Education Level',
-         xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Mental Health Symptoms (%)'))
+  layout(
+    title = 'Mental Health Symptoms (Apr 23 thru Oct 26) by Education Level',
+    xaxis = list(title = 'Time Period (2-Week Intervals)'),
+    yaxis = list(title = 'Mental Health Symptoms (%)')
+  )
 ```
 
 #### Proporiton Reporting Reduced Access to Care by Age Group and Education Level from Apr. 23 thru Oct. 26
 
 The corresponding plots of access to care paint an interesting picture. Again, access to care is reduced across all groups during the first 4-5 months of the pandemic and we notice a sharp decrease in individuals reporting reduced access to care over the course of the 10th through 12th time period (July and August). Further investigation is required to understand this change.
 
-```{r}
-access_df %>% 
-  mutate(
-    group = as.factor(group),
-    subgroup = as.factor(subgroup)
-  ) %>% 
-  filter(
-    group =="By Age"
-  ) %>% 
-  drop_na(access_value) %>% 
-  group_by(time_period, subgroup) %>% 
-  summarize(
-    subgroup,
-    time_period,
-    access_value
-  ) %>% 
-  summarize(
-    mean_access_value = mean(access_value)
+```{r exploration_pt5}
+access_df %>%
+  mutate(group = as.factor(group),
+         subgroup = as.factor(subgroup)) %>%
+  filter(group == "By Age") %>%
+  drop_na(access_value) %>%
+  group_by(time_period, subgroup) %>%
+  summarize(subgroup,
+            time_period,
+            access_value) %>%
+  summarize(mean_access_value = mean(access_value)) %>%
+  ungroup() %>%
+  plot_ly(
+    y =  ~ mean_access_value,
+    x = ~ time_period,
+    color =  ~ subgroup,
+    type = "scatter",
+    mode = "lines+markers"
   ) %>%
-  ungroup() %>% 
-  plot_ly(y=~mean_access_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Reduced Access to Care (Apr 23 thru Oct 26) by Age Group',
-         xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Reduced Access to Care (%)'))
+  layout(
+    title = 'Reduced Access to Care (Apr 23 thru Oct 26) by Age Group',
+    xaxis = list(title = 'Time Period (2-Week Intervals)'),
+    yaxis = list(title = 'Reduced Access to Care (%)')
+  )
 ```
 
-```{r}
-access_df %>% 
-  mutate(
-    group = as.factor(group),
-    subgroup = as.factor(subgroup)
-  ) %>% 
-  filter(
-    group =="By Education"
-  ) %>% 
-  drop_na(access_value) %>% 
-  group_by(time_period, subgroup) %>% 
-  summarize(
-    subgroup,
-    time_period,
-    access_value
-  ) %>% 
-  summarize(
-    mean_access_value = mean(access_value)
+```{r exploration_pt6}
+access_df %>%
+  mutate(group = as.factor(group),
+         subgroup = as.factor(subgroup)) %>%
+  filter(group == "By Education") %>%
+  drop_na(access_value) %>%
+  group_by(time_period, subgroup) %>%
+  summarize(subgroup,
+            time_period,
+            access_value) %>%
+  summarize(mean_access_value = mean(access_value)) %>%
+  ungroup() %>%
+  plot_ly(
+    y =  ~ mean_access_value,
+    x = ~ time_period,
+    color =  ~ subgroup,
+    type = "scatter",
+    mode = "lines+markers"
   ) %>%
-  ungroup() %>% 
-  plot_ly(y=~mean_access_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Reduced Access to Care (Apr 23 thru Oct 26) by Age Group',
-         xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Reduced Access to Care (%)'))
+  layout(
+    title = 'Reduced Access to Care (Apr 23 thru Oct 26) by Age Group',
+    xaxis = list(title = 'Time Period (2-Week Intervals)'),
+    yaxis = list(title = 'Reduced Access to Care (%)')
+  )
 ```
 
 ## Data Summary and Results
@@ -256,152 +290,170 @@ access_df %>%
 
 <center> <img src="plot_files/figure-html/plot_1.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt1}
 graph1_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" &
+      access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Anxiety or Depressive Disorder (%)",
-    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
-    title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
-    )
+  labs(x = "Symptoms of Anxiety or Depressive Disorder (%)",
+       y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+       title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression")
 ```
 
 <center> <img src="plot_files/figure-html/plot_2.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt2}
 graph2_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" &
+      access_ind == "Did Not Get Needed Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Anxiety or Depressive Disorder (%)",
-    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
-    title = "No Access to Care vs. Symptoms of Anxiety or Depression"
-    )
+  labs(x = "Symptoms of Anxiety or Depressive Disorder (%)",
+       y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+       title = "No Access to Care vs. Symptoms of Anxiety or Depression")
 ```
 
 <center> <img src="plot_files/figure-html/plot_3.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt3}
 graph3_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" &
+      access_ind == "Delayed Medical Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Anxiety or Depressive Disorder (%)",
-    y = "Delayed Medical Care in the Last 4 Weeks (%)",
-    title = "Delayed Access to Care vs. Symptoms of Anxiety or Depression"
-    )
+  labs(x = "Symptoms of Anxiety or Depressive Disorder (%)",
+       y = "Delayed Medical Care in the Last 4 Weeks (%)",
+       title = "Delayed Access to Care vs. Symptoms of Anxiety or Depression")
 ```
 
 ### Symptoms of Anxiety and Access to Care Indicators
 
 <center> <img src="plot_files/figure-html/plot_4.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt4}
 graph4_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Anxiety Disorder" &
+      access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Anxiety (%)",
-    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
-    title = "Delayed or No Access to Care vs. Symptoms of Anxiety"
-    ) +
+  labs(x = "Symptoms of Anxiety (%)",
+       y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+       title = "Delayed or No Access to Care vs. Symptoms of Anxiety") +
   theme(plot.title = element_text(size = rel(1)))
 ```
 
 <center> <img src="plot_files/figure-html/plot_5.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt5}
 graph5_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Anxiety Disorder" &
+      access_ind == "Did Not Get Needed Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Anxiety (%)",
-    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
-    title = "No Access to Care vs. Symptoms of Anxiety"
-    )
+  labs(x = "Symptoms of Anxiety (%)",
+       y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+       title = "No Access to Care vs. Symptoms of Anxiety")
 ```
 
 <center> <img src="plot_files/figure-html/plot_6.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt6}
 graph6_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Anxiety Disorder" &
+      access_ind == "Delayed Medical Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Anxiety (%)",
-    y = "Delayed Medical Care in the Last 4 Weeks (%)",
-    title = "Delayed Access to Care vs. Symptoms of Anxiety"
-    )
+  labs(x = "Symptoms of Anxiety (%)",
+       y = "Delayed Medical Care in the Last 4 Weeks (%)",
+       title = "Delayed Access to Care vs. Symptoms of Anxiety")
 ```
 
 ### Symptoms of Depression and Access to Care Indicators
 
 <center> <img src="plot_files/figure-html/plot_7.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt7}
 graph7_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Depressive Disorder" &
+      access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Depression (%)",
-    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
-    title = "Delayed or No Access to Care vs. Symptoms of Depression"
-    )  +
+  labs(x = "Symptoms of Depression (%)",
+       y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+       title = "Delayed or No Access to Care vs. Symptoms of Depression")  +
   theme(plot.title = element_text(size = rel(1)))
 ```
 
 <center> <img src="plot_files/figure-html/plot_8.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt8}
 graph8_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Depressive Disorder" &
+      access_ind == "Did Not Get Needed Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Depression (%)",
-    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
-    title = "No Access to Care vs. Symptoms of Depression"
-    )
+  labs(x = "Symptoms of Depression (%)",
+       y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+       title = "No Access to Care vs. Symptoms of Depression")
 ```
 
 <center> <img src="plot_files/figure-html/plot_9.png" style="width:80%"> </center>
 
-```{r, message = FALSE, warning = FALSE}
+```{r, analysis_pt9}
 graph9_df =
-  combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  combined_df %>%
+  filter(
+    mhealth_ind == "Symptoms of Depressive Disorder" &
+      access_ind == "Delayed Medical Care, Last 4 Weeks" &
+      group == "By State"
+  ) %>%
   ggplot(aes(x = mhealth_value, y = access_value)) +
   geom_point() +
   geom_smooth(se = FALSE) +
-  labs(
-    x = "Symptoms of Depression (%)",
-    y = "Delayed Medical Care in the Last 4 Weeks (%)",
-    title = "Delayed Access to Care vs. Symptoms of Depression"
-    ) +
+  labs(x = "Symptoms of Depression (%)",
+       y = "Delayed Medical Care in the Last 4 Weeks (%)",
+       title = "Delayed Access to Care vs. Symptoms of Depression") +
   theme(plot.title = element_text(size = rel(1)))
 ```
 

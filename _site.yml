@@ -1,4 +1,4 @@
-name: "Global Settings"
+name: "Mental Health Amidst Covid 19"
 output_dir: "."
 navbar:
   title: "<div><img src=\"images/cover.jpg\" height=\"22px\"><span style=\"padding-left:10px\">Mental Health Amidst Covid-19</div>"
@@ -25,7 +25,7 @@ navbar:
 output:
   html_document:
     css: simplex2-modded.min.css
-    title: Covid 19 Mental Health
     toc: yes
+    toc_float: true
     includes:
       after_body: _suffix.html
