@@ -38,11 +38,6 @@ combined_df <-
 states <- geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
 
 ## filter MH and access data
-mhealth_map <- mhealth_df %>% 
-  filter(group == "By State", mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
-
-access_map <-  access_df %>% 
-  filter(group == "By State", access_ind == "Delayed or Did Not Get Care, Last 4 Weeks")
 
 combined_df <- combined_df %>%
   filter(group == "By State", access_ind == "Delayed or Did Not Get Care, Last 4 Weeks", mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
@@ -57,17 +52,29 @@ pal2 <- colorNumeric(
   domain = combined_df$access_value)
 
 ## make time period labels for slider
-week_labels <- mhealth_map %>% select(time_period_label) %>% unique
+week_labels <- combined_df %>% select(time_period_label) %>% unique
 
 ## build Shiny UI
 ui <- fluidPage(
+  
+  tags$h1("Mental Health Symptoms and Access to Care During COVID-19"),
+  
+  br(),
+  
+  tags$body("Data obtained from the Household Pulse Survey, which measures frequency of anxiety or depression symptoms (% MH symptoms) and frequency of delayed or reduced access to care (% reduced access) during the coronavirus pandemic"),
+
+  br(),
+  br(),
   
   fluidRow(
   column(6, offset = 3, wellPanel(
     sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1),
     
-    textOutput("week_label"))
-  )),
+    tags$h4(textOutput("week_label"))
+      )),
+  
+  br(),
+  br(),
   
   fluidRow(
     column(6, leafletOutput("mh_map")),
@@ -75,10 +82,18 @@ ui <- fluidPage(
     column(6, leafletOutput("access_map"))
   ),
   
-
+  br(),
+  br(),
+  
   fluidRow(
-    column(4, plotOutput("combined_plot"))
-  )
+    
+  column(6, offset = 3, plotOutput("combined_plot")))
+  
+    
+  ),
+  br(),
+  br()
+  
 )
 
 ## build Shiny server
