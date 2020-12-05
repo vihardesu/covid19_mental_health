@@ -5,6 +5,6 @@ account: jopetrescu
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3357246
-bundleId: 3947612
+bundleId: 3948011
 url: https://jopetrescu.shinyapps.io/covid19_mental_health/
-when: 1607184748.61019
+when: 1607195368.24363
