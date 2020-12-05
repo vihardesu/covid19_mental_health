@@ -1,6 +1,8 @@
 ---
+pagetitle: Mental Health and Covid-19
 title: <center>Mental Health and Access to Care during Covid-19</center>
-output: html_document
+output: 
+  html_document
 ---
 
 <h2 style="text-align: center;" markdown="1">Exploring mental health symptoms and access to healthcare during the coronavirus pandemic</h2>
