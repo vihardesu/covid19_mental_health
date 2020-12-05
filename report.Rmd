@@ -486,17 +486,35 @@ In order to create another dimension to the data we were working with, we decide
 restrictions_df <- 
   read_csv("data/restrictions.csv")
 
-restrictions_df
+restrictions_df %>% knitr::kable(digits = 1)
+
+
+```
+```{r}
+
+combined_df %>% filter(group == "By State") %>% arrange(desc(mhealth_value)) %>% select(state) %>% distinct(state) %>% head(10) %>% knitr::kable()
 
 ```
 
+Of the 10 states with the highest proportion of individuals reporting symptoms of anxiety or depression over the entire duration of the survey, only two were categorized as having strict public health restrictions while three were categorized as having few or no public health restrictions.
+
+```{r}
+
+combined_df %>% filter(group == "By State") %>% arrange(desc(access_value)) %>% select(state) %>% distinct(state) %>% head(10) %>% knitr::kable()
+
+```
+Of the 10 states with the highest proportion of individuals reporting reduced access to care over the entire duration of the survey, five were categorized as having strict public health restrictions. 
+
+These findings suggest that mental health symptoms are not necessarily associated with stricter public health restrictions, whereas states with the greatest number of individuals reporting reduced access to care were more likely to have strict public health restrictions. This association may be mediated through additional factors such as incidence of COVID-19, hospital capacity, and redeployment of healthcare personnel. 
+
+This analysis is also limited by the fact that many states have implemented different public health restrictions during different time periods during the pandemic. A more granular look at incidence of COVID-19 and state-level public health restrictions during the time periods that the survey was conducted would shed greater light on the correlations between these variables.
 
 ## Discussion
 
 All plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
 
-All scatter plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
-
 Because all values in this dataframe are averages of each indicator organized into each subgroup (gender, age, education, race, and location), we decided not run any correlation tests. Instead, we chose to create these scatter plots comparing indicators of anxiety or depression to indicators of access to care. We chose to look at values by state to maximize the number of data points while ensuring there are no duplicates. These scatter plots are also limited since they do not control for the varying time periods. In our visual analysis tab, we are able to create plots by time periods and depict these correlations.
 
-Although the data we had access to limited our analyses, we were able to observe possible positive correlations between reduced access to care and symptoms of depression and anxiety. As the COVID-19 pandemic continues, mental health concerns are a major public health priority. Increasing funding and expanding funding for telehealth options for mental healthcare is especially important as restrictions and lockdowns may continue into another year.
+Geographic visualization of mental health symptoms and reduced access to care over time further supports the observation that these two indicators are associated. Further analysis of the severity of public health regulations by state suggests that strict regulations are not necessarily associated with increased mental health symptoms, but may be associated with reduced access to care.
+
+Although the data we had access to limited our analyses, we were able to observe possible positive correlations between reduced access to care and symptoms of depression and anxiety suggesting that increased mental health needs during the coronavirus pandemic may not be met. As the COVID-19 pandemic continues, mental health concerns are a major public health priority. Increasing funding and expanding funding for telehealth options for mental healthcare is especially important as restrictions and lockdowns may continue into another year.
