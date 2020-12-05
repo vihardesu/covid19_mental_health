@@ -1,29 +1,37 @@
 ---
-title: <center>Understanding Mental Health and Access to Care during the Covid-19 Pandemic </center>
+title: <center>Mental Health and Access to Care during Covid-19</center>
 output: html_document
 ---
 
-<h2 style="text-align: center;" markdown="1">Exploring Mental Health amidst Covid-19</h2>
+<h2 style="text-align: center;" markdown="1">Exploring mental health symptoms and access to healthcare during the coronavirus pandemic</h2>
 <h4 style="text-align: center;" markdown="1">By: Chariz Seijo (cks2143)  |  Vihar Desu (vd2392)  |  Joana Petrescu (jp3665)  |  Sanjana Batabyal (sb4328)</h4>
 <center><a href=""><img src="images/cover.jpg"></a></center>
 
 <br></br>
 
-# Introduction
+## Introduction
 
-The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic,  public health measures in place to reduce its spread may cause an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. In this analysis, we investigate the relationships between COVID-19 and mental health services across the country.
+The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic,  public health measures in place to reduce its spread may cause an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. In this analysis, we explore the relationships between reduced access to healthcare and mental health symptoms in the U.S. during the COVID-19 pandemic.
+<br></br>
 
-# Dataset
+## Dataset
 
-Data was obtained from the Household Pulse Survey data from the CDC which measures **frequency of anxiety or depression symptoms** and **frequency of delayed or reduced access to care** during the coronavirus pandemic. Visit [source](https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and [source](https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) for more information.
+Data were obtained from the Household Pulse Survey,  which measures [frequency of anxiety or depression symptoms](https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and [frequency of delayed or reduced access to care](https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) over the course of the coronavirus pandemic.
+<br></br>
 
-# Findings - TODO
+## Findings - TODO
+<br></br>
 
-# Mental Health Resources
+## Mental Health Resources
 
-Having mental health issues during the pandemic is common. [Here are resources](https://www.cdc.gov/coronavirus/2019-ncov/daily-life-coping/managing-stress-anxiety.html) for managing stress and taking care of your mental health.
+These data demonstrate an increase in mental health needs that coincides with decreased access to care. The CDC has compiled mental health  [resources](https://www.cdc.gov/coronavirus/2019-ncov/daily-life-coping/managing-stress-anxiety.html) for coping with the increase in stressors and mental health needs associated with the COVID-19 pandemic.
+<br></br>
 
-In crisis:
+## Resources for immediate help during a mental health crisis
 
-* National Suicide Prevention Hotline: **1-800-273-8255**
-* Crisis Text Line: Text **741741**
+**If you or someone you know is in immediate danger, call 911**
+
+* National Suicide Prevention Hotline: 1-800-273-8255
+* Crisis Text Line: Text 741741
+<br></br>
+
