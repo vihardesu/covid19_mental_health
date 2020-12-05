@@ -30,6 +30,10 @@ access_df =
          time_period = week,
          time_period_label = week_label)
 
+combined_df <- 
+  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label"))  %>% 
+  relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
+
 ## import US states .json file
 states <- geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
 
@@ -40,14 +44,17 @@ mhealth_map <- mhealth_df %>%
 access_map <-  access_df %>% 
   filter(group == "By State", access_ind == "Delayed or Did Not Get Care, Last 4 Weeks")
 
+combined_df <- combined_df %>%
+  filter(group == "By State", access_ind == "Delayed or Did Not Get Care, Last 4 Weeks", mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder")
+
 ## make color palettes based on data values
 pal <- colorNumeric(
   palette = "Blues",
-  domain = mhealth_map$mhealth_value)
+  domain = combined_df$mhealth_value)
 
 pal2 <- colorNumeric(
   palette = "Greens",
-  domain = access_map$access_value)
+  domain = combined_df$access_value)
 
 ## make time period labels for slider
 week_labels <- mhealth_map %>% select(time_period_label) %>% unique
@@ -70,7 +77,7 @@ ui <- fluidPage(
   
 
   fluidRow(
-    column(4, offset = 3, img(src = "coronavirus_cases.png", width = 900))
+    column(4, plotOutput("combined_plot"))
   )
 )
 
@@ -78,7 +85,7 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   
-  mhealth_updated <- reactive({ mhealth_map %>% filter(time_period == input$week) })
+  combined_updated <- reactive({ combined_df %>% filter(time_period == input$week) })
   
   output$week_label <- renderText({
     paste(week_labels[input$week,])
@@ -86,14 +93,14 @@ server <- function(input, output) {
   })
   
   output$mh_map <- renderLeaflet({
-    leaflet(mhealth_updated()) %>% addTiles() %>%
+    leaflet(combined_updated()) %>% addTiles() %>%
       addPolygons(
         data = states, 
         fillOpacity = 1, 
-        color = ~pal(mhealth_updated()$mhealth_value), 
+        color = ~pal(combined_updated()$mhealth_value), 
         stroke = FALSE, 
         smoothFactor = 0.2,
-        label = paste(mhealth_updated()$state, mhealth_updated()$mhealth_value),
+        label = paste(combined_updated()$state, combined_updated()$mhealth_value),
         labelOptions = labelOptions(
           style = list("font-weight" = "normal", padding = "3px 8px"),
           textsize = "15px",
@@ -101,23 +108,21 @@ server <- function(input, output) {
       
       addLegend(
         pal = pal,
-        values = ~mhealth_map$mhealth_value,
+        values = ~combined_df$mhealth_value,
         opacity = 0.7,
         title = "% MH symptoms",
         position = "bottomright") 
   })
   
-  access_updated <- reactive({ access_map %>% filter(time_period == input$week) })
-  
   output$access_map <- renderLeaflet({
-    leaflet(access_updated()) %>% addTiles() %>%
+    leaflet(combined_updated()) %>% addTiles() %>%
       addPolygons(
         data = states, 
         fillOpacity = 1, 
-        color = ~pal2(access_updated()$access_value), 
+        color = ~pal2(combined_updated()$access_value), 
         stroke = FALSE, 
         smoothFactor = 0.2,
-        label = paste(access_updated()$state, access_updated()$access_value),
+        label = paste(combined_updated()$state, combined_updated()$access_value),
         labelOptions = labelOptions(
           style = list("font-weight" = "normal", padding = "3px 8px"),
           textsize = "15px",
@@ -125,11 +130,27 @@ server <- function(input, output) {
       
       addLegend(
         pal = pal2,
-        values = ~access_map$access_value,
+        values = ~combined_df$access_value,
         opacity = 0.7,
         title = "% reduced access",
         position = "bottomright") 
   })
+  
+
+  
+  output$combined_plot <- renderPlot(
+    
+    combined_updated() %>% 
+      ggplot(aes(x = mhealth_value, y = access_value)) +
+      geom_point() +
+      geom_smooth(method= "lm") +
+      labs(
+        x = "Symptoms of Anxiety or Depressive Disorder (%)",
+        y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+        title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
+      )
+    
+  )
   
 }
 
