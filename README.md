@@ -1,7 +1,7 @@
 ## Mental Health Access amidst Covid 19
 [Visit the report](https://vihardesu.github.io/covid19_mental_health/)  
 
-Authors:  
+#### Authors:  
 Chariz Seijo  
 Vihar Desu  
 Joana Petrescu  
