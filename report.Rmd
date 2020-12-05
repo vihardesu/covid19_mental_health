@@ -112,9 +112,9 @@ Because all values in this dataframe are averages of each indicator organized in
 
 ## Exploratory Analysis 
 
-#### Mental Health Levels Ranked by State
+The following visualizations provide a preliminary look into the relationship between mental health and access to care. This analysis allowed us to develop a hypothesis that increased mental health symptoms and reduced access to care were associated, which we explore more deeply further in this analysis. This association suggests that mental health needs may coincide geographically with reduced access to healthcare, either through a direct relationship or due to confounding factors such as coronavirus incidence and public health measures.
 
-The below two visualizations provide a look into the relationship between mental health and access to care. This analysis allowed us to develop a hypothesis that low mental health scores and access to care were linked, which we analyze more deeply later on in this analysis. We want to further investigate whether access to care decreases quality of mental health (increases anxiety and depression).
+#### Frequency of Mental Health Symptoms Ranked by State
 
 ```{r}
 mhealth_df %>%
@@ -122,12 +122,12 @@ mhealth_df %>%
     state = fct_reorder(as.factor(state), mhealth_value)
   ) %>% 
   plot_ly(y = ~mhealth_value, color = ~state, type = "box", colors = "viridis") %>%
-  layout(title = 'Mental Health Score by State',
+  layout(title = 'Mental Health Symptoms by State',
          xaxis = list(title = 'States'),
-         yaxis = list(title = 'Mental Health Score (%)'))
+         yaxis = list(title = 'Mental Health Symptoms (%)'))
 ```
 
-#### Access to Care Ranked by State
+#### Frequency of Reduced Access to Care Ranked by State
 
 ```{r}
 access_df %>%
@@ -135,14 +135,14 @@ access_df %>%
     state = fct_reorder(as.factor(state), access_value)
   ) %>% 
   plot_ly(y = ~access_value, color = ~state, type = "box", colors = "viridis") %>%
-  layout(title = 'Access to Care by State',
+  layout(title = 'Reduced Accesss to Care by State',
          xaxis = list(title = 'States'),
-         yaxis = list(title = 'Access to Care (%)' ))
+         yaxis = list(title = 'Reduced Access to Care (%)' ))
 ```
 
-#### Average Mental Health of Age Groups from Apr. 23 thru Oct. 26
+#### Frequency of Mental Health Symptoms by Age Group and Education Level from Apr. 23 thru Oct. 26
 
-We found it interesting that mental health gradually worsened over the course of the pandemic. The below two plots show how over the course of the first 4-5 months, anxiety and depression levels increased, and around the 12th time interval (August), it appears that mental health quality improved, almost drastically, across education levels and age groups. Furthermore, those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health than other populations with higher education status.
+We found it interesting that symptoms of anxiety and depression increased over the course of the pandemic among all age groups. The following two plots demonstrate that over the course of the first 4-5 months, anxiety and depression levels increased. Around the 12th survey period (August), it appears that mental health quality improved drastically across all education levels and age groups. Furthermore, those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health than groups with higher education levels.
 
 ```{r}
 mhealth_df %>% 
@@ -165,9 +165,9 @@ mhealth_df %>%
   ) %>%
   ungroup() %>% 
   plot_ly(y=~mean_mhealth_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Mental Health Score (Apr 23 thru Oct 26) by Age Group',
+  layout(title = 'Mental Health Symptoms (Apr 23 thru Oct 26) by Age Group',
          xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Mental Health Score (%)'))
+         yaxis = list(title = 'Mental Health Symptoms (%)'))
 ```
 
 ```{r}
@@ -191,14 +191,14 @@ mhealth_df %>%
   ) %>%
   ungroup() %>% 
   plot_ly(y=~mean_mhealth_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Mental Health Score (Apr 23 thru Oct 26) by Education Level',
+  layout(title = 'Mental Health Symptoms (Apr 23 thru Oct 26) by Education Level',
          xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Mental Health Score (%)'))
+         yaxis = list(title = 'Mental Health Symptoms (%)'))
 ```
 
-#### Access to Care Differences
+#### Frequency of Reduced Access to Care by Age Group and Education Level from Apr. 23 thru Oct. 26
 
-The corresponding plots of access to care paint an interest picture in lieu of the discoveries of the mental health over time as shown above. Again, we notice a sharp change in access to care over the course of the 10th through 12th time period (July and August). Further investigation is required to make sense of this change. 
+The corresponding plots of access to care paint an interesting picture. Again, we notice a sharp decrease in individuals reporting reduced access to care over the course of the 10th through 12th time period (July and August). Further investigation is required to understand this change.
 
 ```{r}
 access_df %>% 
@@ -221,9 +221,9 @@ access_df %>%
   ) %>%
   ungroup() %>% 
   plot_ly(y=~mean_access_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Access to Care (Apr 23 thru Oct 26) by Age Group',
+  layout(title = 'Reduced Access to Care (Apr 23 thru Oct 26) by Age Group',
          xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Access to Care Score (%)'))
+         yaxis = list(title = 'Reduced Access to Care (%)'))
 ```
 
 ```{r}
@@ -247,9 +247,9 @@ access_df %>%
   ) %>%
   ungroup() %>% 
   plot_ly(y=~mean_access_value, x = ~time_period, color=~subgroup, type = "scatter", mode="lines+markers") %>%
-  layout(title = 'Access to Care (Apr 23 thru Oct 26) by Age Group',
+  layout(title = 'Reduced Access to Care (Apr 23 thru Oct 26) by Age Group',
          xaxis = list(title = 'Time Period (2-Week Intervals)'),
-         yaxis = list(title = 'Access to Care Score (%)'))
+         yaxis = list(title = 'Reduced Access to Care (%)'))
 ```
 
 ## Data Summary and Results
@@ -407,8 +407,13 @@ graph9_df =
   theme(plot.title = element_text(size = rel(1)))
 ```
 
-These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all plots depict symptoms of anxiety or depression increasing while reduced access to care values increase.
+These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators across all groups. Although mostly scattered, these plots suggest that anxiety or depression symptoms and reduced access may be associated over the course of the coronavirus pandemic. In order to explore this relationship further, we visualized the geographic distribution of mental health symptoms and reduced access to care over time.
+
+## Geographic Visualization of Mental Health Symptoms and Reduced Access to Care
+
 
 
 ## Discussion
+
+urthermore, those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health than groups with higher education levels.
  
