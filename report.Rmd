@@ -44,7 +44,7 @@ Our project seeks to further understand the impact of the COVID-19 on mental hea
 
 Data was obtained from the Household Pulse Survey data which measures **indicators of anxiety or depression** (https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and **indicators of reduced access to care** (https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) during the coronavirus pandemic.
 
-## Data Cleaning and Limitations
+## Data Cleaning
 
 We combined two separate Household Pulse Survey datasets to be able to run comparisons on between indicators of anxiety or depression and indicators of reduced access to care. Each dataset had three indicators
 
@@ -109,8 +109,6 @@ Our final dataset contains 10,881 observations and 18 variables:
 * `access_highci`: Upper estimate of access to health confidence interval
 * `access_ci`: Confidence interval of access to health value
 * `access_qrange`: Quartile range of access to health value
-
-Because all values in this dataframe are averages of each indicator organized into each subgroup (gender, age, education, race, and location), we decided not run any correlation tests. Instead, we chose to create scatter plots comparing indicators of anxiety or depression to indicators of access to care. We chose to look at values by state to maximize the number of data points while ensuring there are no duplicates.
 
 ## Exploratory Analysis 
 
@@ -409,7 +407,9 @@ graph9_df =
   theme(plot.title = element_text(size = rel(1)))
 ```
 
-These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators. Although mostly scattered, all plots depict symptoms of anxiety or depression increasing while reduced access to care values increase.
+All plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
+
+Because all values in this dataframe are averages of each indicator organized into each subgroup (gender, age, education, race, and location), we decided not run any correlation tests. Instead, we chose to create these scatter plots comparing indicators of anxiety or depression to indicators of access to care. We chose to look at values by state to maximize the number of data points while ensuring there are no duplicates. These scatter plots are also limited since they do not control for the varying time periods. In our visual analysis tab, we are able to create plots by time periods and depict these correlations.
 
 ## Discussion
 
