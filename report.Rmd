@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Motivation
 
-The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic, public health measures in place to reduce its spread may be associated with an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. The coincidince of increased mental health symptoms and reduced access to healthcare during the COVID-19 pandemic may reveal unment mental health needs.
+The COVID-19 pandemic has drastically affected access to care across the United States due to such factors as diversion of medical resources and personnel, reduced access to transportation, and fear of transmission of COVID-19 in healthcare facilities. In addition to fears related to the pandemic, public health measures in place to reduce its spread may be associated with an increase in mental health needs. The U.S. Census Bureau, the CDC, and four additional federal agencies have conducted the Household Pulse Survey to measure social and economic effects of the COVID-19 pandemic. Among these data are indicators of reduced access to care and depression/anxiety symptoms. The coincidince of increased mental health symptoms and reduced access to healthcare during the COVID-19 pandemic may reveal unmet mental health needs.
 
 ## Initial Questions and Goal
 
@@ -36,11 +36,7 @@ The effect of the ongoing coronavirus pandemic on access to mental healthcare an
 
 * [Impact of COVID-19 and lockdown on mental health of children and adolescents](https://www.sciencedirect.com/science/article/pii/S016517812031725X?casa_token=uJHlhj7hWk0AAAAA:mzm7WDMrMzs-BZEdUrb7W0zpBwaHFhU-BlVonNsRPbbpzEdaoQG2GzQzL4YDUhvG5xgmtKc14w)
 
-<<<<<<< HEAD
-Our project seeks to further understand the impact of COVID-19 on mental health and the ability to access health care. The reduced access to care and increased pyscholgical stressors associated with the pandemic may contribute to unmet mental health needs.
-=======
-Our project seeks to further understand the impact of the COVID-19 on mental health, especially possible factors that include the disruption of typical mental healthcare and psychological distress associated with the pandemic.
->>>>>>> 712230832b87f78dfc15203f2bb91adb51b9a32f
+Our project seeks to further understand the impact of COVID-19 on mental health and the ability to access health care. The reduced access to care and increased psycholgical stressors associated with the pandemic may contribute to unmet mental health needs.
 
 ## Data Source
 
@@ -116,7 +112,7 @@ Our final dataset contains 10,881 observations and 18 variables:
 
 The following visualizations provide a preliminary look into the relationship between mental health and access to care. This analysis allowed us to develop a hypothesis that increased mental health symptoms and reduced access to care were associated, which we explore more deeply further in this analysis. This association suggests that mental health needs may coincide geographically with reduced access to healthcare, either through a direct relationship or due to confounding factors such as coronavirus incidence and public health measures.
 
-#### Frequency of Mental Health Symptoms Ranked by State
+#### Indicators of Mental Health Symptoms Ranked by State
 
 ```{r}
 mhealth_df %>%
@@ -129,7 +125,7 @@ mhealth_df %>%
          yaxis = list(title = 'Mental Health Symptoms (%)'))
 ```
 
-#### Frequency of Reduced Access to Care Ranked by State
+#### Indicators of Reduced Access to Care Ranked by State
 
 ```{r}
 access_df %>%
@@ -142,9 +138,9 @@ access_df %>%
          yaxis = list(title = 'Reduced Access to Care (%)' ))
 ```
 
-#### Frequency of Mental Health Symptoms by Age Group and Education Level from Apr. 23 thru Oct. 26
+#### Proportion Reporting Mental Health Symptoms by Age Group and Education Level from Apr. 23 thru Oct. 26
 
-We found it interesting that symptoms of anxiety and depression increased over the course of the pandemic among all age groups. The following two plots demonstrate that over the course of the first 4-5 months, anxiety and depression levels increased. Around the 12th survey period (August), it appears that mental health quality improved drastically across all education levels and age groups. Furthermore, those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health than groups with higher education levels.
+We found it interesting that symptoms of anxiety and depression increased over the course of the pandemic among all age groups. The following two plots demonstrate that over the course of the first 4-5 months, anxiety and depression levels increased. Around the 12th survey period (August), it appears that symptoms of depression or anxiety decreased across all education levels and age groups. Furthermore, those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health symptoms than groups with higher education levels.
 
 ```{r}
 mhealth_df %>% 
@@ -198,7 +194,7 @@ mhealth_df %>%
          yaxis = list(title = 'Mental Health Symptoms (%)'))
 ```
 
-#### Frequency of Reduced Access to Care by Age Group and Education Level from Apr. 23 thru Oct. 26
+#### Proporiton Reporting Reduced Access to Care by Age Group and Education Level from Apr. 23 thru Oct. 26
 
 The corresponding plots of access to care paint an interesting picture. Again, access to care is reduced across all groups during the first 4-5 months of the pandemic and we notice a sharp decrease in individuals reporting reduced access to care over the course of the 10th through 12th time period (July and August). Further investigation is required to understand this change.
 
@@ -409,7 +405,6 @@ graph9_df =
   theme(plot.title = element_text(size = rel(1)))
 ```
 
-<<<<<<< HEAD
 These plots depict averages of anxiety or depression indicators and averages of reduced access to care indicators across all groups. Although mostly scattered, these plots suggest that anxiety or depression symptoms and reduced access may be associated over the course of the coronavirus pandemic. In order to explore this relationship further, we visualized the geographic distribution of mental health symptoms and reduced access to care over time.
 
 ## Geographic Visualization of Mental Health Symptoms and Reduced Access to Care
@@ -428,11 +423,11 @@ This visualization of the data by survey time period reveals a positive correlat
 
 ## State Categorization
 
-In order to create another dimension to the data we were working with, we decided to view the data about mental health scores and access to care through the lens of the severity of lockdowns and restrictions in states. We created three categories: little to no restrictions, moderate restrictions, and strict restrictions. Using a New York Times compilation of restrictions and mask mandates in all 50 states which can be accessed [here](https://www.nytimes.com/interactive/2020/us/states-reopen-map-coronavirus.html), we used the following variables to categorize states in to the three categories mentioned above.
+In order to create another dimension to the data we were working with, we decided to view the data about mental health symptoms and access to care through the lens of the public health measures and restrictions across states. We created three categories: little to no restrictions, moderate restrictions, and strict restrictions. Using a New York Times compilation of restrictions and mask mandates in all 50 states which can be accessed [here](https://www.nytimes.com/interactive/2020/us/states-reopen-map-coronavirus.html), we used the following variables to categorize states into these three categories.
 
 * States with mandatory stay-at-home orders were automatically placed in the category of strict restrictions; states with mandatory mask mandates as well as most business closures were also placed in consideration for the strict category. The timeliness of the restrictions and the peaks of the cases in the states were also factors for consideration.
-* States had to have a minimum of mask mandate in their state as well as some business closure in order to be under consideration as a state with moderate restrictions.
-* All other states were placed under the little to no state restriction.
+* States had to have a minimum of mask mandate in their state as well as some business closures in order to be labeled a state with moderate restrictions.
+* All other states were placed under the little to no state restriction category.
 
 ## Discussion
 
