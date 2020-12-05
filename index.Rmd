@@ -16,7 +16,7 @@ The COVID-19 pandemic has drastically affected access to care across the United 
 
 ## Dataset
 
-Data were obtained from the Household Pulse Survey,  which measures [frequency of anxiety or depression symptoms](https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and [frequency of delayed or reduced access to care](https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) over the course of the coronavirus pandemic.
+Data were obtained from the Household Pulse Survey,  which measures [indicators of anxiety or depression symptoms](https://healthdata.gov/dataset/indicators-anxiety-or-depression-based-reported-frequency-symptoms-during-last-7-days) and [indicators of delayed or reduced access to care](https://healthdata.gov/dataset/indicators-reduced-access-care-due-coronavirus-pandemic-during-last-4-weeks) over the course of the coronavirus pandemic.
 <br></br>
 
 ## Findings - TODO
