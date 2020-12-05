@@ -68,7 +68,8 @@ ui <- fluidPage(
   
   fluidRow(
   column(6, offset = 3, wellPanel(
-    sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1),
+    sliderInput("week", "Survey time period:", min = 1, max = 17, value = 1, animate=animationOptions(2000, loop = TRUE)
+),
     
     tags$h4(textOutput("week_label"))
       )),
