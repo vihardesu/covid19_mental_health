@@ -429,10 +429,18 @@ In order to create another dimension to the data we were working with, we decide
 * States had to have a minimum of mask mandate in their state as well as some business closures in order to be labeled a state with moderate restrictions.
 * All other states were placed under the little to no state restriction category.
 
+```{r}
+
+restrictions_df <- 
+  read_csv("data/restrictions.csv")
+
+restrictions_df
+
+```
+
+
 ## Discussion
 
-those with "Less than a High School Diploma", on average, had much steeper fluctuations in mental health than groups with higher education levels.
-=======
 All plots visually depict those who reported symptoms of anxiety or depression increasing while reported reduced access to care also increases. Based on these visuals, it is interesting to note we see possible stronger linear relationships when roughly more than 30% report symptoms of anxiety or depression. These scatter plots depict only averages of anxiety or depression indicators and averages of reduced access to care indicators, since we did not have access to any individual data points. 
 
 Because all values in this dataframe are averages of each indicator organized into each subgroup (gender, age, education, race, and location), we decided not run any correlation tests. Instead, we chose to create these scatter plots comparing indicators of anxiety or depression to indicators of access to care. We chose to look at values by state to maximize the number of data points while ensuring there are no duplicates. These scatter plots are also limited since they do not control for the varying time periods. In our visual analysis tab, we are able to create plots by time periods and depict these correlations.
@@ -440,5 +448,4 @@ Because all values in this dataframe are averages of each indicator organized in
 ## Discussion
 
 Although the data we had access to limited our analyses, we were able to observe possible positive correlations between reduced access to care and symptoms of depression and anxiety. As the COVID-19 pandemic continues, mental health concerns are a major public health priority. Increasing funding and expanding funding for telehealth options for mental healthcare is especially important as restrictions and lockdowns may continue into another year.
->>>>>>> 712230832b87f78dfc15203f2bb91adb51b9a32f
  
