@@ -6,12 +6,14 @@ output: github_document
 
 ```{r setup, include = FALSE}
 library(tidyverse)
+library(plotly)
+library(flexdashboard)
 ```
 
 
-## Read data
+## Create combined dataframe
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 mhealth_df =
   read_csv("data/Indicators_of_Anxiety_or_Depression_Based_on_Reported_Frequency_of_Symptoms_During_Last_7_Days.csv") %>%
   janitor::clean_names() %>% 
@@ -34,19 +36,61 @@ access_df =
          time_period = week,
          time_period_label = week_label)
 
+
 combined_df = 
-  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label")) %>% 
+  left_join(mhealth_df, access_df, by = c("phase", "group", "state", "subgroup", "time_period", "time_period_label"))  %>% 
   relocate("phase", "group", "state", "subgroup", "time_period", "time_period_label")
 ```
 
-## Correlation analyses
+## Comparisons
+
+```{r, message = FALSE, warning = FALSE}
+graph1_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety or Depressive Disorder (%)",
+    y = "Delayed or Did Not Get Care in the Last 4 Weeks (%)",
+    title = "Delayed or No Access to Care vs. Symptoms of Anxiety or Depression"
+    )
+
+graph2_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Did Not Get Needed Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety or Depressive Disorder (%)",
+    y = "Did Not Get Needed Care in the Last 4 Weeks (%)",
+    title = "No Access to Care vs. Symptoms of Anxiety or Depression"
+    )
+
+graph3_df =
+  combined_df %>% 
+  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed Medical Care, Last 4 Weeks" &  group == "By State") %>% 
+  ggplot(aes(x = mhealth_value, y = access_value)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    x = "Symptoms of Anxiety or Depressive Disorder (%)",
+    y = "Delayed Medical Care in the Last 4 Weeks (%)",
+    title = "Delayed Access to Care vs. Symptoms of Anxiety or Depression"
+    )
+```
+
+  plot_ly(x = ~mhealth_value, y = ~access_value, type = "scatter", mode = "markers", color = ~state)
+
+## Plotly graphs
 
 ```{r}
-correlation_df =
+plotly1_df =
   combined_df %>% 
-  filter(mhealth_ind == "Symptoms of Anxiety Disorder or Depressive Disorder" & access_ind == "Delayed or Did Not Get Care, Last 4 Weeks")
-
-cor.test(correlation_df$mhealth_value, correlation_df$access_value, alternative = ("two.sided"), method = c("pearson"))
+  filter(access_ind == "Delayed or Did Not Get Care, Last 4 Weeks" & group == "By Gender") %>% 
+  plot_ly(x = ~time_period_label, y = ~access_value, type = "scatter", mode = "lines", color = ~subgroup)
 ```
 
 
