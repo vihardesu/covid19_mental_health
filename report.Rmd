@@ -417,7 +417,19 @@ In order to accomplish this, we used a package called `leaflet` to create chorop
 
 After creating geographic representations of the data using `leaflet`, the `Shiny` package was used to make these visualizations interactive. Specifically, a slider was created which allows the user to select a survey time period for which to display the geographic data. This scroll bar has been animated to loop over all survey time periods in order to visualize the geographic distribution of mental health and access to care indicators over the course of the coronavirus pandemic.
 
-Below the choropleth maps that represent the geographic distribution of mental health symptoms and reduced access to care during each survey time period is scatterplot that represents 
+Below the choropleth maps that represent the geographic distribution of mental health symptoms and reduced access to care during each survey time period is a scatterplot comparing the proportion of individuals who report delaying or not recieving care and the proportion of individuals who report symptoms of anxiety or depression for the selected 2-week survey period across all states. A linear model is used to estimate the relationship between these two variables for each time period.
+
+The resulting interactive visualization is hosted on the `ShinyApps.io` server.
+
+This visualization of the data by survey time period reveals a positive correlation between proportion of individuals who report mental health symptoms and proportion of individuals who report reduced access to care during only some of the 2-week intervals, particularly the most recent survey time periods. This relationship was not as apparent when comparing these variables over all survey time periods, demonstrating the utility of this interactive analysis.
+
+## State Categorization
+
+In order to create another dimension to the data we were working with, we decided to view the data about mental health scores and access to care through the lens of the severity of lockdowns and restrictions in states. We created three categories: little to no restrictions, moderate restrictions, and strict restrictions. Using a New York Times compilation of restrictions and mask mandates in all 50 states which can be accessed [here](https://www.nytimes.com/interactive/2020/us/states-reopen-map-coronavirus.html), we used the following variables to categorize states in to the three categories mentioned above.
+
+* States with mandatory stay-at-home orders were automatically placed in the category of strict restrictions; states with mandatory mask mandates as well as most business closures were also placed in consideration for the strict category. The timeliness of the restrictions and the peaks of the cases in the states were also factors for consideration.
+* States had to have a minimum of mask mandate in their state as well as some business closure in order to be under consideration as a state with moderate restrictions.
+* All other states were placed under the little to no state restriction.
 
 ## Discussion
 
