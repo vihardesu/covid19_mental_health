@@ -1,4 +1,5 @@
 ---
+pagetitle: Mental Health and Covid-19
 output: 
   html_document:
     toc: true
