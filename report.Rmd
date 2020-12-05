@@ -9,8 +9,6 @@ output:
 ```{r setup, include = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(plotly)
-library(flexdashboard)
-library(patchwork)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -29,6 +27,18 @@ The COVID-19 pandemic has drastically affected access to care across the United 
 We propose to investigate whether there exists a correlation between reduced access to care and depression/anxiety symptoms during COVID-19 using these data. We will compare reduction in access to care and mental health outcomes by age, gender, race, education and state.
 
 ## Related Work
+
+With the ongoing pandemic, we still do not fully understand how it has impacted access to mental healthcare and the prevalence of mental illness in the general population. 
+
+A few projects have provided recommendations and/or examined preliminary data:
+
+* [Human needs in COVID-19 isolation](https://journals.sagepub.com/doi/full/10.1177/1359105320925149?casa_token=wSRi-0u2RlsAAAAA%3AGsLCwQZQ6_EORL0wBOUi3mYJisP0ZN0WOl1kP1aJClaH4j12Fk48Gipv_DTxepfRpah8VbdRTaTPDg)
+
+* [Mental distress during the COVID-19 pandemic](https://journals.sagepub.com/doi/full/10.1177/1359105320925149?casa_token=wSRi-0u2RlsAAAAA%3AGsLCwQZQ6_EORL0wBOUi3mYJisP0ZN0WOl1kP1aJClaH4j12Fk48Gipv_DTxepfRpah8VbdRTaTPDg)
+
+* [Impact of COVID-19 and lockdown on mental health of children and adolescents](https://www.sciencedirect.com/science/article/pii/S016517812031725X?casa_token=uJHlhj7hWk0AAAAA:mzm7WDMrMzs-BZEdUrb7W0zpBwaHFhU-BlVonNsRPbbpzEdaoQG2GzQzL4YDUhvG5xgmtKc14w)
+
+Our project seeks to further understand the impact of the COVID-19 on mental health, especially possible factors that include the disruption of typical mental healthcare and pyscholgical distress associated with the pandemic.
 
 ## Data Source
 
@@ -120,6 +130,7 @@ mhealth_df %>%
 ```
 
 #### Access to Care Ranked by State
+
 ```{r}
 access_df %>%
   mutate(
