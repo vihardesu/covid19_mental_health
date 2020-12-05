@@ -198,7 +198,7 @@ mhealth_df %>%
 
 #### Frequency of Reduced Access to Care by Age Group and Education Level from Apr. 23 thru Oct. 26
 
-The corresponding plots of access to care paint an interesting picture. Again, we notice a sharp decrease in individuals reporting reduced access to care over the course of the 10th through 12th time period (July and August). Further investigation is required to understand this change.
+The corresponding plots of access to care paint an interesting picture. Again, access to care is reduced across all groups during the first 4-5 months of the pandemic and we notice a sharp decrease in individuals reporting reduced access to care over the course of the 10th through 12th time period (July and August). Further investigation is required to understand this change.
 
 ```{r}
 access_df %>% 
@@ -411,7 +411,7 @@ These plots depict averages of anxiety or depression indicators and averages of 
 
 ## Geographic Visualization of Mental Health Symptoms and Reduced Access to Care
 
-
+Our previous analyses revealed that increased anxiety and depression symptoms and reduced access to care seem to have similar fluctuations over time. In addition, sctterplots 
 
 ## Discussion
 
