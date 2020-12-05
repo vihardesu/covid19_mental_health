@@ -7,7 +7,7 @@ navbar:
   - text: "Project Report"
     icon: fa-file-text-o fa-lg
     href: report.html
-  - text: "Visual Analysis"
+  - text: "Geographic Visualization"
     href: https://jopetrescu.shinyapps.io/covid19_mental_health/
   - text: "Contact Us"
     icon: fa-telegram fa-lg
